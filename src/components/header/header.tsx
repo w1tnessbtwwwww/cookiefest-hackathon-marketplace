@@ -13,11 +13,11 @@ export default function Header() {
                     <path d="M14 21V17C14 14.7909 12.2091 13 10 13C7.79086 13 6 14.7909 6 17V21M19 9.15033V16.9668C19 19.1943 17.2091 21 15 21H5C2.79086 21 1 19.1943 1 16.9668V9.15033C1 7.93937 1.53964 6.7925 2.46986 6.02652L7.46986 1.90935C8.9423 0.696886 11.0577 0.696883 12.5301 1.90935L17.5301 6.02652C18.4604 6.7925 19 7.93937 19 9.15033Z" stroke="#28303F" stroke-width="1.5" />
                 </svg>
             </div>
-            <div className="search-box">
+            <div className="search-container">
                 <svg width="48" height="48" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M14.2 14.2L17 17M16.2 8.6C16.2 4.40264 12.7974 1 8.6 1C4.40264 1 1 4.40264 1 8.6C1 12.7974 4.40264 16.2 8.6 16.2C12.7974 16.2 16.2 12.7974 16.2 8.6Z" stroke="#28303F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
-
+                <input type="text" placeholder="Поиск..." />
             </div>
             <div className="shopping-basket">
                 <svg width="48" height="48" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">

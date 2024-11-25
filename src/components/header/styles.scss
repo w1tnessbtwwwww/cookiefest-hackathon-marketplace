@@ -1,19 +1,44 @@
-.header{
-    display: flex;
-    position: relative;
-    justify-content: space-around;
-    padding-block: 10px;
-    background-color: #8fb3fa;
+.header {
+  display: flex;
+  position: relative;
+  justify-content: space-around;
+  padding-block: 10px;
+  background-color: #8fb3fa;
 
-    > *{
-        cursor: pointer;
-        transition: filter 0.4s ease;
-        &:hover{
-            filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.3));
-            
-        }
-        &:active{
-                filter: brightness(2) drop-shadow(5px 5px 10px rgba(5, 5, 5, 0.3));;
-        }
+  > * {
+    cursor: pointer;
+    transition: filter 0.4s ease;
+    &:hover {
+      filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.3));
     }
+    &:active {
+      filter: brightness(2) drop-shadow(5px 5px 10px rgba(5, 5, 5, 0.3));
+    }
+    
+  }
+  .search-container {
+    filter: none;
+    &:hover {
+      filter: none;
+    }
+    &:active {
+      filter: none;
+    }
+    svg {
+      &:hover {
+        filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.3));
+      }
+      &:active {
+        filter: brightness(2) drop-shadow(5px 5px 10px rgba(5, 5, 5, 0.3));
+      }
+    }
+    display: flex;
+    gap: 15px;
+    input {
+      font-size: 24px;
+      position: relative;
+      width: 450px;
+      height: auto;
+    }
+  }
 }
