@@ -1,3 +1,4 @@
+import SearchBox from "./SearchBox";
 import "./styles.scss";
 export default function Header() {
   return (
@@ -49,7 +50,20 @@ export default function Header() {
             stroke-linejoin="round"
           />
         </svg>
-        <input type="text" placeholder="Поиск..." />
+        <SearchBox
+          suggestions={[
+            "Apple",
+            "Banana",
+            "Cherry",
+            "Date",
+            "Elderberry",
+            "Fig",
+            "Grape",
+            "Honeydew",
+            "Kiwi",
+            "Lemon",
+          ]}
+        />
       </div>
       <div className="shopping-basket">
         <svg

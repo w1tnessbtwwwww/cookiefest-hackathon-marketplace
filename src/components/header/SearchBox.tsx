@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
+import './styles.scss'
 
 interface searchProps {
   suggestions: string[];
@@ -32,18 +33,41 @@ export default function SearchBox({ suggestions }: searchProps) {
     }, 100);
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (searchBoxRef.current && !searchBoxRef.current.contains(event.target as Node)) {
-        setShowSuggestions(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-  return <div className="search-box">
+//   useEffect(() => {
+//     const handleClickOutside = (event: MouseEvent) => {
+//       if (
+//         searchBoxRef.current &&
+//         !searchBoxRef.current.contains(event.target as Node)
+//       ) {
+//         setShowSuggestions(false);
+//       }
+//     };
+//     document.addEventListener("mousedown", handleClickOutside);
+//     return () => {
+//       document.removeEventListener("mousedown", handleClickOutside);
+//     };
+//   }, []);
 
-  </div>;
+  return (
+    <div className="search-box-container" ref={searchBoxRef}>
+      <input
+        type="text"
+        value={inputValue}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        onClick={()=>{setShowSuggestions(!showSuggestions)}}
+        placeholder="Поиск..."
+        className="search-input"
+      />
+      {showSuggestions && filteredSuggestions.length > 0 && (
+        <ul className="suggestions-list">
+          {filteredSuggestions.map((suggestion, index) => (
+            <li key={index} onClick={() => handleSuggestionClick(suggestion)}>
+              {suggestion}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
 }
