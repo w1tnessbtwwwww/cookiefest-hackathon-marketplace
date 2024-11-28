@@ -1,3 +1,4 @@
+import { Routes } from "react-router";
 import Header from "./components/header/Header";
 import ProductPage from "./components/ProductPage";
 
@@ -37,7 +38,9 @@ function App() {
   return (
     <div className="wrapper min-h-screen bg-gray-100 dark:bg-gray-900">
       <Header />
-      <ProductPage product={product}/>
+      
+        
+      
 
     </div>
   );
