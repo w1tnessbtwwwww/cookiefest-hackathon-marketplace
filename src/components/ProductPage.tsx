@@ -1,21 +1,22 @@
 import React, { useState } from "react";
 import Swal from "sweetalert2";
+import { productProps } from "../types";
 
-interface ProductPageProps {
-    product: {
-        imagesByColor: { [colorName: string]: string[] };
-        title: string;
-        price: number;
-        oldPrice?: number;
-        discount?: string;
-        rating: number;
-        numReviews: number;
-        description: string;
-        colors: { name: string; hex: string }[];
-    }
-}
+// interface ProductPageProps {
+//     product: {
+//         imagesByColor: { [colorName: string]: string[] };
+//         title: string;
+//         price: number;
+//         oldPrice?: number;
+//         discount?: string;
+//         rating: number;
+//         numReviews: number;
+//         description: string;
+//         colors: { name: string; hex: string }[];
+//     }
+// }
 
-const ProductPage: React.FC<ProductPageProps> = ({product}) => {
+const ProductPage: React.FC<productProps> = ({product}) => {
     const [activeColorIndex, setActiveColorIndex] = useState(0);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [selectedSize, setSelectedSize] = useState<string | null>(null);
