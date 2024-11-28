@@ -3,13 +3,14 @@ import ProductCard from "./ProductCard"
 
 
 export default function HomePage() {
-    // const [data, setData] = useState([{}])
-    // useEffect(() => {
-    //     fetch('https://jsonplaceholder.typicode.com/photos/')
-    //         .then(response => response.json())
-    //         .then(data => setData(data))
-    //         .catch(error => console.error('Ошибка при загрузке данных:', error))
-    // }, [])
+    const [data, setData] = useState([{}])
+    useEffect(() => {
+        // fetch('https://jsonplaceholder.typicode.com/photos/')
+        //     .then(response => response.json())
+        //     .then(data => setData(data))
+        //     .catch(error => console.error('Ошибка при загрузке данных:', error))
+        setData(data)
+    }, [])
 
     const product = {
         id: 1,
