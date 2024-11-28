@@ -2,34 +2,26 @@ import React, { useState } from "react";
 import Swal from "sweetalert2";
 
 interface ProductPageProps {
-    imagesByColor: { [colorName: string]: string[] };
-    title: string;
-    price: string;
-    oldPrice?: string;
-    discount?: string;
-    rating: number;
-    numReviews: number;
-    description: string;
-    colors: { name: string; hex: string }[];
+    product: {
+        imagesByColor: { [colorName: string]: string[] };
+        title: string;
+        price: number;
+        oldPrice?: number;
+        discount?: string;
+        rating: number;
+        numReviews: number;
+        description: string;
+        colors: { name: string; hex: string }[];
+    }
 }
 
-const ProductPage: React.FC<ProductPageProps> = ({
-    imagesByColor,
-    title,
-    price,
-    oldPrice,
-    discount,
-    rating,
-    numReviews,
-    description,
-    colors,
-}) => {
+const ProductPage: React.FC<ProductPageProps> = ({product}) => {
     const [activeColorIndex, setActiveColorIndex] = useState(0);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [selectedSize, setSelectedSize] = useState<string | null>(null);
 
     const sizes = ["S", "M", "L", "XL"];
-    const currentImages = imagesByColor[colors[activeColorIndex].name];
+    const currentImages = product.imagesByColor[product.colors[activeColorIndex].name];
 
     const handleImageChange = (index: number) => {
         setCurrentImageIndex(index);
@@ -106,41 +98,41 @@ const ProductPage: React.FC<ProductPageProps> = ({
 
                 {/* Правая часть */}
                 <div className="flex-1 ml-8">
-                    <h1 className="text-2xl font-bold text-gray-800">{title}</h1>
+                    <h1 className="text-2xl font-bold text-gray-800">{product.title}</h1>
                     <div className="mt-2 flex items-center space-x-4">
-                        <span className="text-xl font-bold text-gray-900">{price} ₽</span>
-                        {oldPrice && (
+                        <span className="text-xl font-bold text-gray-900">{product.price} ₽</span>
+                        {product.oldPrice && (
                             <span className="text-sm text-gray-500 line-through">
-                                {oldPrice} ₽
+                                {product.oldPrice} ₽
                             </span>
                         )}
-                        {discount && (
+                        {product.discount && (
                             <span className="text-sm bg-red-600 text-white px-2 py-1 rounded">
-                                {discount}
+                                {product.discount}
                             </span>
                         )}
                     </div>
                     <div className="mt-2 flex items-center">
-                        <span className="text-yellow-500 font-medium">{rating}</span>
+                        <span className="text-yellow-500 font-medium">{product.rating}</span>
                         <span className="ml-2 text-sm text-gray-500">
-                            ({numReviews} отзывов)
+                            ({product.numReviews} отзывов)
                         </span>
                     </div>
                     <p className="mt-2 text-sm text-gray-600 whitespace-pre-line">
-                        {description}
+                        {product.description}
                     </p>
 
                     {/* Выбор цвета */}
                     <div className="mt-4">
                         <h3 className="text-sm font-medium text-gray-700">Цвет:</h3>
                         <div className="mt-2 flex space-x-4">
-                            {colors.map((color, index) => (
+                            {product.colors.map((color, index) => (
                                 <button
                                     key={color.name}
                                     onClick={() => handleColorChange(index)}
                                     className={`w-8 h-8 rounded-full border-2 focus:outline-none ${activeColorIndex === index
-                                            ? "border-[#5e5f9c]"
-                                            : "border-transparent"
+                                        ? "border-[#5e5f9c]"
+                                        : "border-transparent"
                                         } ${color.name === "White" ? "shadow-md shadow-gray-500" : ""}`}
                                     style={{ backgroundColor: color.hex }}
                                 ></button>
@@ -172,13 +164,14 @@ const ProductPage: React.FC<ProductPageProps> = ({
 
                     {/* Кнопка добавления в корзину */}
                     <button
-                        className="mt-8 w-full bg-[#5e5f9c] hover:bg-[#4a4b7a] text-white text-sm font-medium py-2 rounded-lg"
+                        className="mt-8 w-full bg-primary-700 hover:bg-primary-900 text-white text-sm font-medium py-2 rounded-lg"
                         onClick={handleAddToCart}
                     >
                         Добавить в корзину
                     </button>
                 </div>
             </div>
+
         </div>
     );
 };
