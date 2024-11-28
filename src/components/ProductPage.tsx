@@ -4,20 +4,19 @@ import ReviewsSection from "./ReviewsSection"; // Импортируем ком�
 
 interface ProductPageProps {
     product: {
-      imagesByColor: { [colorName: string]: string[] };
-      title: string;
-      price: number;
-      oldPrice?: number;
-      discount?: string;
-      rating: number; // Рейтинг из App.tsx
-      numReviews: number;
-      description: string;
-      colors: { name: string; hex: string }[];
+        imagesByColor: { [colorName: string]: string[] };
+        title: string;
+        price: number;
+        oldPrice?: number;
+        discount?: string;
+        rating: number;
+        numReviews: number;
+        description: string;
+        colors: { name: string; hex: string }[];
     };
-    reviews: { name: string; rating: number; comment: string }[]; // Отзывы
-  }
+}
 
-const ProductPage: React.FC<ProductPageProps> = ({ product, re }) => {
+const ProductPage: React.FC<ProductPageProps> = ({ product }) => {
     const [activeColorIndex, setActiveColorIndex] = useState(0);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [selectedSize, setSelectedSize] = useState<string | null>(null);

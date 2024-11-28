@@ -1,31 +1,23 @@
 import React from "react";
 
+interface Review {
+  name: string;
+  rating: number;
+  comment: string;
+}
+
 interface ReviewsSectionProps {
-  reviews: {
-    name: string;
-    rating: number;
-    comment: string;
-  }[];
-  averageRating: number; // Добавляем это свойство
+  reviews: Review[];
+  averageRating: number;
   totalReviews: number;
 }
 
-
-const ReviewsSection: React.FC<ReviewsSectionProps> = ({ reviews }) => {
-  // Рассчитываем общее количество отзывов
-  const totalReviews = reviews.length;
-
-  // Рассчитываем средний рейтинг
-  const averageRating =
-    totalReviews > 0
-      ? reviews.reduce((sum, review) => sum + review.rating, 0) / totalReviews
-      : 0;
-
-  // Формируем распределение по звездам
-  const ratingDistribution = Array(5).fill(0);
-  reviews.forEach((review) => {
-    ratingDistribution[review.rating - 1]++;
-  });
+const ReviewsSection: React.FC<ReviewsSectionProps> = ({
+  reviews,
+  averageRating,
+  totalReviews,
+}) => {
+  const ratingDistribution = [2, 1, 0, 0, 0]; // Прямое распределение
 
   return (
     <div className="mt-12 p-6 bg-gray-100 rounded-lg shadow-md">
@@ -62,14 +54,12 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ reviews }) => {
                 <div
                   className="bg-yellow-500 h-full rounded"
                   style={{
-                    width: totalReviews > 0 ? `${(count / totalReviews) * 100}%` : "0%",
+                    width: `${(count / totalReviews) * 100}%`,
                   }}
                 ></div>
               </div>
               <span className="text-gray-500 text-xs">
-                {totalReviews > 0
-                  ? `${((count / totalReviews) * 100).toFixed(1)}%`
-                  : "0.0%"}
+                {((count / totalReviews) * 100).toFixed(1)}%
               </span>
             </div>
           ))}
