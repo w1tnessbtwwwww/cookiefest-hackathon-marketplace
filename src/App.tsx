@@ -1,4 +1,4 @@
-import { Routes } from "react-router";
+import { BrowserRouter, Route, Routes } from "react-router";
 import Header from "./components/header/Header";
 import ProductPage from "./components/ProductPage";
 
@@ -36,9 +36,13 @@ function App() {
 
 
   return (
-    <div className="wrapper min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div className="wrapper min-h-screen bg-primary-100 dark:bg-primary-900">
       <Header />
-      
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<ProductPage product={product}/>} />
+        </Routes>
+      </BrowserRouter>
         
       
 
