@@ -1,5 +1,6 @@
 import React from 'react';
-import { productProps } from '../types';
+import { Product } from '../types';
+import { NavLink } from 'react-router-dom';
 
 // interface ProductCardProps {
 //   product: {
@@ -13,10 +14,10 @@ import { productProps } from '../types';
 //   }
 // }
 
-const ProductCard: React.FC<productProps> = ({ product }) => {
+const ProductCard: React.FC<Product> = ({ product }) => {
   return (
-    <a
-      href="#"
+    <NavLink
+      to={`/productpage/${product.id}`}
       className="w-72 m-auto bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden transition-transform transform hover:scale-105 no-underline"
     >
       <div className="relative">
@@ -63,11 +64,11 @@ const ProductCard: React.FC<productProps> = ({ product }) => {
             <span className="text-sm text-gray-500 line-through ml-2">{product.oldPrice} ₽</span>
           )}
         </div>
-        <button className="mt-4 w-full bg-[#5e5f9c] hover:bg-[#4a4b7a] text-white text-sm font-medium py-2 rounded-lg">
+        <button className="mt-4 w-full bg-primary-700 hover:bg-primary-700 text-white text-sm font-medium py-2 rounded-lg">
           Добавить в корзину
         </button>
       </div>
-    </a>
+    </NavLink>
   );
 };
 

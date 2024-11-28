@@ -1,4 +1,4 @@
-export interface productProps{
+export interface Product{
     product: {
         id: number;
         imagesByColor: { [colorName: string]: string[] };
