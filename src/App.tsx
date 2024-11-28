@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router";
 import Header from "./components/header/Header";
-import ProductPage from "./components/ProductPage";
+import HomePage from "./components/HomePage";
 
 function App() {
   const product = {
@@ -40,7 +40,7 @@ function App() {
       <Header />
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<ProductPage product={product}/>} />
+          <Route path='/' element={<HomePage/>} />
         </Routes>
       </BrowserRouter>
         
