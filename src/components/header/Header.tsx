@@ -2,7 +2,7 @@ import Search from "./Search";
 
 export default function Header() {
   return (
-    <header>
+    <header className="mb-5">
       <nav className="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
         <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
           <div className="flex items-center sm:order-1 w-full md:m-20px sm:w-1/2">
