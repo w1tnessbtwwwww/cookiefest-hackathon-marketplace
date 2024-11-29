@@ -1,50 +1,36 @@
-# React + TypeScript + Vite
+# The Маркетплейс
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Проект в рамках хакатона от организаторов CookieFest 29.11.2024. 
 
-Currently, two official plugins are available:
+Партнер: **Бизнес -клуб Крона**. 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Команда: **KEZ**
 
-## Expanding the ESLint configuration
+## Тема: **Маркетплейс**
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+#### Проблематика: 
+Жители Новосибирска - активные пользователи маркетплейсов OZON, WB и пр.
+Обычно, прекрасная половина семьи заказывает любимые марки освежителей для белья, зубных паст и пр. бытовой химии. Но при повторном заказе часто обнаруживается, что товар у проверенного поставщика значительно изменил цену и это приводит к необходимости:
+заново искать товар у других продавцов;
+заново изучать отзывы о продавцах;
+заново выбирать продавцов по приемлемому сроку доставки;
+заново находить товар по приемлемой цене.
+И вместо одного клика “Повторить заказ” на это тратится существенная часть времени.
 
-- Configure the top-level `parserOptions` property like this:
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+#### Задачи разрабатываемой системы:
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+**Задача 1**. Автоматизировать поиск самых выгодных предложений своего круга товаров.  Как результат: в момент, когда пользователю нужно сделать заказ,  система предлагает наилучший вариант по цене, отзывам, срокам доставки. Пользователю остается по клику перейти в карточку товара и сделать заказ.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+**Задача 2**. Мониторить цены на товары и подсказывать пользователю, когда на его популярные товары максимальные скидки.
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## Выбор технологий
+
+В проекте использованы современные актуальные решения, такие как
+- Vite + React, Tailwind, Flowbite, SweetAlert2.
+- Json Web Tokens (JWT) для авторизации
+- API: Python FastAPI, Java Spring Boot
+- ORM (Объектно-реляционное представление) - Python SQLAlchemy + Alembic
+- Контейнеризация: Docker
+
+Выбранный стек позволил Нам в короткие сроки реализовать минимально необходимый функционал, который позволит в дальнейшем легко его расширить и масштабировать
