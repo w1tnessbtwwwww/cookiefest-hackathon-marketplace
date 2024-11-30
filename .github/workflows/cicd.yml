@@ -28,7 +28,6 @@ jobs:
 
     - name: Running Tests
       run: |
-        ls -lah
         cd back/python-api/
         make tests
 
