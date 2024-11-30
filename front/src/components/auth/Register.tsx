@@ -34,7 +34,16 @@ const Register: React.FC = () => {
           },
         }
       );
-      
+      const profile = await axios.post(
+        `${baseUrl()}/v1/auth/register`,
+        { email, password },
+        {
+          headers: {
+            accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
       if (response.data?.status_code != 400) {
         alert('Успешная регистрация')
         navigate('/auth/login');

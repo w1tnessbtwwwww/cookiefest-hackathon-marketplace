@@ -180,7 +180,7 @@ const ProductPage = () => {
                         <span className="ml-2 text-sm text-gray-500">({product.reviews} отзывов)</span>
                     </div>
                     <p className="mt-2 text-sm text-gray-600 whitespace-pre-line">{product.description}</p>
-                    <a href={product.url} target="_blank" className="text-primary-500 underline ">Перейти на сайт продавца</a>
+                    <a href={product.url} target="_blank" className="text-primary-500 underline">Перейти на сайт продавца</a>
 
                     {/* Выбор цвета */}
                     {/* <div className="mt-4">
@@ -234,7 +234,7 @@ const ProductPage = () => {
                 <OffersButton
                     id={product.articul}
                     imageSrc="https://sun9-34.userapi.com/impg/DTM9lA6GxWbcXKbVMXGAIN1wkTXQTbTD4jGZ7A/lPi5nTyhHbs.jpg?size=852x1280&quality=96&sign=12b46bd92dfdac51b2b3d1b3609abe16&type=album"
-                    offerCount={3}
+                    offerCount={null}
                     // {product.merchantsIds.length}
                 />
             </div>

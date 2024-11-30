@@ -5,60 +5,42 @@ import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import baseUrl from '../baseurl';
 
-interface profile {
+interface Profile {
   surname: string;
   name: string;
   patronymic: string;
   email: string;
-  phoneNumber: string
+  phoneNumber: string;
 }
 
 
-const favoriteItems = [
-  {
-    id: 1,
-    name: 'Футболка',
-    color: 'Синяя',
-    size: 'L',
-    price: 32.0,
-    image: 'https://sun9-34.userapi.com/impg/DTM9lA6GxWbcXKbVMXGAIN1wkTXQTbTD4jGZ7A/lPi5nTyhHbs.jpg?size=852x1280&quality=96&sign=12b46bd92dfdac51b2b3d1b3609abe16&type=album',
-    quantity: 1,
-    stockStatus: 'В наличии',
-  },
-  {
-    id: 2,
-    name: 'Рубашка',
-    color: 'Черная',
-    size: 'L',
-    price: 32.0,
-    image: 'https://sun9-34.userapi.com/impg/DTM9lA6GxWbcXKbVMXGAIN1wkTXQTbTD4jGZ7A/lPi5nTyhHbs.jpg?size=852x1280&quality=96&sign=12b46bd92dfdac51b2b3d1b3609abe16&type=album',
-    quantity: 1,
-    stockStatus: 'В наличии',
-  },
-];
+interface ordersType {
+  articul: number;
+  price: number;
+  sale: number;
+  url: string;
+  reviews: number;
+  description: null | string;
+  productId: number;
+  title: string;
+  quantity: number;
+  salePrice: null | number;
+  merchantId: number;
+  rating: number;
+  productCategoryId?: number | null
+}
 
-const orderHistory = [
-  {
-    id: 3,
-    name: 'Кепка',
-    color: 'Белая',
-    size: 'XL',
-    price: 35.0,
-    image: 'https://sun9-34.userapi.com/impg/DTM9lA6GxWbcXKbVMXGAIN1wkTXQTbTD4jGZ7A/lPi5nTyhHbs.jpg?size=852x1280&quality=96&sign=12b46bd92dfdac51b2b3d1b3609abe16&type=album',
-    quantity: 1,
-    stockStatus: 'Доставлено',
-  },
-];
+
 
 const UserProfilePage: React.FC = () => {
-  const [favorites, setFavorites] = useState(favoriteItems);
-  const [orders, setOrders] = useState(orderHistory);
-  const [profile, setProfile] = useState<profile | null>(null)
-  const [userId, setUserId] = useState<number | null>(null)
-  const { logout, isAuthenticated } = useAuth()
-  const navigate = useNavigate()
+  const [favorites, setFavorites] = useState<ordersType | []>([]);
+  const [orders, setOrders] = useState<ordersType | []>([]);
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [userId, setUserId] = useState<number | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { logout, isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
-  //cookie
   useEffect(() => {
     if (!isAuthenticated) navigate('/auth/login');
 
@@ -73,27 +55,53 @@ const UserProfilePage: React.FC = () => {
     if (jwtToken) {
       try {
         const decodedToken: { [key: string]: any } = jwtDecode(jwtToken);
-        const { surname, name, patronymic, email, phoneNumber } = decodedToken.profile;
-        setUserId(decodedToken.id)
-        setProfile({ surname, name, patronymic, email, phoneNumber });
+        setUserId(decodedToken.id);
+        if (decodedToken.profile) {
+          const { surname, name, patronymic, email, phoneNumber } = decodedToken.profile;
+          setProfile({ surname, name, patronymic, email, phoneNumber });
+        }
+        else setProfile({ surname: "test", name: "test", patronymic: "test", email: "test@test", phoneNumber: "test" })
       } catch (error) {
         console.error('Failed to decode JWT token:', error);
       }
     }
+
+    const fetchFavorites = async () => {
+      try {
+        const fav = await axios.get(`${baseUrl()}/v1/favorite/userfavourites?user_id=${userId}`)
+        setFavorites(fav.data)
+      } catch (err) {
+        console.log('fetchFavorites error')
+      }
+    }
+    fetchFavorites()
+
+    const fetchOrders = async () => {
+      try {
+        const ord = await axios.get(`${baseUrl()}/v1/orders/getorders?user=${userId}`)
+        setOrders(ord.data)
+      } catch (err) {
+        console.log('fetchOrders error')
+      }
+    }
+    fetchOrders()
   }, [isAuthenticated, navigate]);
 
-  useEffect(()=>{
-    const fetchFavorites = async () => {
-      const response = await axios.get(`${baseUrl()}/v1/`)
-    }
-  }, [])
   const handleEditProfile = () => {
-    // Логика для изменения данных профиля
-
-    console.log('Изменить данные');
+    setIsModalOpen(true);
   };
 
-  if (!profile) return <div>Error</div>
+  const handleSaveProfile = () => {
+    // Логика для сохранения измененных данных профиля
+    console.log('Сохранить данные:', profile);
+    setIsModalOpen(false);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  if (!profile) return <div>Loading...</div>;
 
   return (
     <div className="container mx-auto p-6">
@@ -103,17 +111,17 @@ const UserProfilePage: React.FC = () => {
         <div className="space-y-2">
           <p>
             <span className="font-semibold">Имя: </span>
-            {profile.surname + " " + profile.name + " " + profile.patronymic}
+            {profile.surname} {profile.name} {profile.patronymic}
           </p>
           <p>
             <span className="font-semibold">Email: </span>
             {profile.email}
           </p>
           <p>
-            <span className="font-semibold">Телефон:  </span>
+            <span className="font-semibold">Телефон: </span>
             {profile.phoneNumber}
           </p>
-          <div className='flex gap-3'>
+          <div className="flex gap-3">
             <button
               onClick={handleEditProfile}
               className="mt-4 bg-primary-500 text-white px-4 py-2 rounded hover:bg-primary-600"
@@ -128,7 +136,6 @@ const UserProfilePage: React.FC = () => {
             </button>
           </div>
         </div>
-
       </div>
 
       {/* Избранные товары */}
@@ -199,6 +206,78 @@ const UserProfilePage: React.FC = () => {
           </div>
         )}
       </div>
+
+      {/* Модальное окно для изменения данных профиля */}
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-md w-96">
+            <h2 className="text-xl font-bold text-gray-900 mb-4">Изменить данные профиля</h2>
+            <form>
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2">Фамилия:</label>
+                <input
+                  type="text"
+                  value={profile.surname}
+                  onChange={(e) => setProfile({ ...profile, surname: e.target.value })}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2">Имя:</label>
+                <input
+                  type="text"
+                  value={profile.name}
+                  onChange={(e) => setProfile({ ...profile, name: e.target.value })}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2">Отчество:</label>
+                <input
+                  type="text"
+                  value={profile.patronymic}
+                  onChange={(e) => setProfile({ ...profile, patronymic: e.target.value })}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2">Email:</label>
+                <input
+                  type="email"
+                  value={profile.email}
+                  onChange={(e) => setProfile({ ...profile, email: e.target.value })}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2">Телефон:</label>
+                <input
+                  type="text"
+                  value={profile.phoneNumber}
+                  onChange={(e) => setProfile({ ...profile, phoneNumber: e.target.value })}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
+              </div>
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  onClick={handleCloseModal}
+                  className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                >
+                  Отмена
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSaveProfile}
+                  className="bg-primary-600 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2"
+                >
+                  Сохранить
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
