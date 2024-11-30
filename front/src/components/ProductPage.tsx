@@ -33,7 +33,7 @@ const ProductPage = () => {
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                const response = await axios.get(`${baseUrl()}/v1/auth/product/${id}`); // Замените на ваш эндпоинт
+                const response = await axios.get(`${baseUrl()}/v1/auth/product/${id}`); 
                 setProduct(response.data);
             } catch (err) {
                 setError(err.message);
@@ -171,6 +171,8 @@ const ProductPage = () => {
                     <div className="mt-6">
                         <h3 className="text-sm font-medium text-gray-700">Размер:</h3>
                         <div className="mt-2 flex space-x-4">
+                        <a href={product.url} target="_blank" rel="noopener noreferrer">Перейти на сайт продавца</a>
+
                             {/* {sizes.map((size) => (
                                 <button
                                     key={size}
@@ -198,7 +200,6 @@ const ProductPage = () => {
 
             <div className="my-8">
                 <OffersButton
-                    
                     id={product.articul}
                     imageSrc="https://sun9-34.userapi.com/impg/DTM9lA6GxWbcXKbVMXGAIN1wkTXQTbTD4jGZ7A/lPi5nTyhHbs.jpg?size=852x1280&quality=96&sign=12b46bd92dfdac51b2b3d1b3609abe16&type=album"
                     offerCount={product.merchantsIds.length}

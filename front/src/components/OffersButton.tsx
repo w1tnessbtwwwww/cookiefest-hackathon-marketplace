@@ -9,7 +9,7 @@ interface OffersButtonProps {
 
 const OffersButton: React.FC<OffersButtonProps> = ({ id, imageSrc, offerCount }) => {
     return (
-        <NavLink to={`/supplierpage/${id}`} className="flex items-center justify-between bg-gray-100 p-4 rounded-lg shadow-md hover:bg-gray-200 cursor-pointer">
+        <NavLink to={`/offers/${id}`} className="flex items-center justify-between bg-gray-100 p-4 rounded-lg shadow-md hover:bg-gray-200 cursor-pointer">
             <div className="flex items-center">
                 <img
                     src={imageSrc}

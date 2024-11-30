@@ -38,3 +38,11 @@ export interface ProductPageProps {
     reviews: Review[];
     merchantsIds: number[]
 }
+
+export interface MerchantOffers {
+    articul: number;
+    store: string;
+    price: number;
+    rating: number;
+    reviews: number;
+}
