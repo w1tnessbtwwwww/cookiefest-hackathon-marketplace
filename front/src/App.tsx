@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Header from "./components/header/Header";
 import HomePage from "./components/HomePage";
 import ProductPage from "./components/ProductPage";
@@ -8,6 +8,7 @@ import AuthPage from "./components/auth/AuthPage";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import CartPage from "./components/CartPage";
+import { useAuth } from "./components/auth/AuthProvider";
 import UserProfilePage from "./components/UserProfilePage";
 
 function App() {
@@ -31,5 +32,9 @@ function App() {
     </div>
   );
 }
+
+
+
+
 
 export default App;
