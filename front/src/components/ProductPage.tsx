@@ -24,9 +24,9 @@ import baseUrl from "../baseurl";
 const ProductPage = () => {
     const { id } = useParams<{ id: string }>();
     const [product, setProduct] = useState<ProductPageProps | null>(null)
-    const [activeColorIndex, setActiveColorIndex] = useState(0);
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const [selectedSize, setSelectedSize] = useState<string | null>(null);
+    // const [activeColorIndex, setActiveColorIndex] = useState(0);
+    // const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    // const [selectedSize, setSelectedSize] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -103,7 +103,7 @@ const ProductPage = () => {
                     <div className="relative w-full h-[500px] bg-gray-100 rounded-lg overflow-hidden">
                         <img
                             src="https://sun9-34.userapi.com/impg/DTM9lA6GxWbcXKbVMXGAIN1wkTXQTbTD4jGZ7A/lPi5nTyhHbs.jpg?size=852x1280&quality=96&sign=12b46bd92dfdac51b2b3d1b3609abe16&type=album"
-                            alt={`Product image ${currentImageIndex + 1}`}
+                            // alt={`Product image ${currentImageIndex + 1}`}
                             className="object-contain w-full h-full"
                         />
                         {/* <button
@@ -198,10 +198,10 @@ const ProductPage = () => {
 
             <div className="my-8">
                 <OffersButton
-                    // ПОМЕТКА ДОРАБОТАТЬ
-                    id={product.article}
+                    
+                    id={product.articul}
                     imageSrc="https://sun9-34.userapi.com/impg/DTM9lA6GxWbcXKbVMXGAIN1wkTXQTbTD4jGZ7A/lPi5nTyhHbs.jpg?size=852x1280&quality=96&sign=12b46bd92dfdac51b2b3d1b3609abe16&type=album"
-                    offerCount={3}
+                    offerCount={product.merchantsIds.length}
                 />
             </div>
 
