@@ -1,10 +1,10 @@
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 from ..abstract.abc_repo import AbstractRepository
-from ..models.product import Product
+from ..models.item import Item
 
 class ShopRepository(AbstractRepository):
-    model = Product
+    model = Item
 
     def __init__(self, session: Session):
         self._session = session

@@ -1,10 +1,10 @@
 from sqlalchemy import insert, select
-from ..models.product import Product
+from ..models.item import Item
 from ..abstract.abc_repo import AbstractRepository
 
 
 class ProductRepository(AbstractRepository):
-    model = Product
+    model = Item
 
 
     async def create_product_if_not_exists(self, **kwargs):
