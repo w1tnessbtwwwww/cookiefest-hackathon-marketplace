@@ -21,7 +21,7 @@ public class IndexInitializatorService {
 
         RequestBody requestBody = RequestBody.create(json, JSON);
         Request request = new Request.Builder()
-                .url("https://localhost:9200/products")
+                .url("http://localhost:9200/products")
                 .put(requestBody)
                 .addHeader("Content-Type", "application/json")
                 .addHeader("Authorization", "ApiKey ZHc1ZWZaTUI4M0VKUEtHT2tUTUQ6SmY1UnNhSHdTN0s2YUwtemJ2d1ZfZw==")
