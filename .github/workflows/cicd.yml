@@ -25,9 +25,10 @@ jobs:
       run: |
         cd back/python-api
         echo "${{ secrets.ENV_PYTHON}}" > .env
-        
+
     - name: Running Tests
       run: |
+        ls -lah
         cd back/python-api/
         make tests
 
