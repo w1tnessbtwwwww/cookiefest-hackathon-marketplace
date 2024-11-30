@@ -31,3 +31,7 @@ jobs:
         cd back/python-api/
         make tests
 
+    - name: Running API
+      run: |
+        cd back/python-api/
+        make deploy
