@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './auth/AuthProvider';
 
-interface profile{
+interface profile {
   surname: string;
   name: string;
   patronymic: string;
@@ -57,10 +57,10 @@ const UserProfilePage: React.FC = () => {
   const { logout, isAuthenticated } = useAuth()
   const navigate = useNavigate()
 
-  useEffect(()=>{
-    if(!isAuthenticated) navigate('/auth/login');
+  useEffect(() => {
+    if (!isAuthenticated) navigate('/auth/login');
   }, [isAuthenticated, navigate])
-  
+
   const handleEditProfile = () => {
     // Логика для изменения данных профиля
     console.log('Изменить данные');
@@ -80,13 +80,22 @@ const UserProfilePage: React.FC = () => {
             <span className="font-semibold">Email: </span>
             {userInfo.email}
           </p>
-          <button
-            onClick={handleEditProfile}
-            className="mt-4 bg-primary-500 text-white px-4 py-2 rounded hover:bg-primary-600"
-          >
-            Изменить данные
-          </button>
+          <div className='flex'>
+            <button
+              onClick={handleEditProfile}
+              className="mt-4 bg-primary-500 text-white px-4 py-2 rounded hover:bg-primary-600"
+            >
+              Изменить данные
+            </button>
+            <button
+              onClick={() => logout}
+              className="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+            >
+              Выйти из аккаунта
+            </button>
+          </div>
         </div>
+
       </div>
 
       {/* Избранные товары */}
