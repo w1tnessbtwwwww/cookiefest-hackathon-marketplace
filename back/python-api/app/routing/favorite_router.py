@@ -11,7 +11,7 @@ favorite_router = APIRouter(prefix="/favorite", tags=["Избранные"])
 
 @favorite_router.post("/create")
 async def create_favorite(fav: CreateFavorite, session: Session = Depends(get_session)):
-    return await FavoriteRepository(session).create(userId=fav.userId, articul=fav.articul)
+    return await FavoriteRepository(session).create(fav)
 
 @favorite_router.delete("/delete")
 async def delete_favorite(fav: CreateFavorite, session: Session = Depends(get_session)):
