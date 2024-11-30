@@ -12,7 +12,7 @@ from app.database.models.user import User
 from app.database.models.user_profile import UserProfile
 from app.database.models.merchant import Merchant
 from app.database.models.order import Order
-
+from app.database.models.favorite import Favorite
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config

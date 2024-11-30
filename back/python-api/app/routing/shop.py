@@ -7,3 +7,8 @@ shop_router = APIRouter(prefix="/items", tags=["Товары"])
 @shop_router.get("/getshop")
 async def get_shop(session: Session = Depends(get_session)):
     return await ShopRepository(session).get_all()
+
+
+@shop_router.get("/getitems/{articul}")
+async def get_item(articul: int, session: Session = Depends(get_session)):
+    return await ShopRepository(session).get_by_articul(articul)
