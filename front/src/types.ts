@@ -31,12 +31,12 @@ export interface ProductPageProps {
     salePrice: number;
     rating: number;
     quantity: number
-    numReviews: number;
+    reviews: number;
     description?: string;
     url: string;
     reviewsCount: number
-    reviews: Review[];
-    merchantsIds: number[]
+    //reviews: Review[];
+    // merchantId: number
 }
 
 export interface MerchantOffers {

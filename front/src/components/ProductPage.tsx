@@ -33,7 +33,7 @@ const ProductPage = () => {
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                const response = await axios.get(`${baseUrl()}/v1/auth/product/${id}`); 
+                const response = await axios.get(`${baseUrl()}/v1/items/getitems/${id}`); 
                 setProduct(response.data);
             } catch (err) {
                 setError(err.message);
@@ -147,15 +147,15 @@ const ProductPage = () => {
                     </div>
                     <div className="mt-2 flex items-center">
                         <span className="text-yellow-500 font-medium">{product.rating}</span>
-                        <span className="ml-2 text-sm text-gray-500">({product.numReviews} отзывов)</span>
+                        <span className="ml-2 text-sm text-gray-500">({product.reviews} отзывов)</span>
                     </div>
                     <p className="mt-2 text-sm text-gray-600 whitespace-pre-line">{product.description}</p>
 
                     {/* Выбор цвета */}
-                    <div className="mt-4">
+                    {/* <div className="mt-4">
                         <h3 className="text-sm font-medium text-gray-700">Цвет:</h3>
                         <div className="mt-2 flex space-x-4">
-                            {/* {product.colors.map((color, index) => (
+                            {product.colors.map((color, index) => (
                                 <button
                                     key={color.name}
                                     onClick={() => handleColorChange(index)}
@@ -163,17 +163,17 @@ const ProductPage = () => {
                                         } ${color.name === "White" ? "shadow-md shadow-gray-500" : ""}`}
                                     style={{ backgroundColor: color.hex }}
                                 ></button>
-                            ))} */}
+                            ))}
                         </div>
-                    </div>
+                    </div> */}
 
                     {/* Выбор размера */}
-                    <div className="mt-6">
+                    {/* <div className="mt-6">
                         <h3 className="text-sm font-medium text-gray-700">Размер:</h3>
                         <div className="mt-2 flex space-x-4">
                         <a href={product.url} target="_blank" rel="noopener noreferrer">Перейти на сайт продавца</a>
 
-                            {/* {sizes.map((size) => (
+                            {sizes.map((size) => (
                                 <button
                                     key={size}
                                     onClick={() => setSelectedSize(size)}
@@ -184,9 +184,9 @@ const ProductPage = () => {
                                 >
                                     {size}
                                 </button>
-                            ))} */}
+                            ))}
                         </div>
-                    </div>
+                    </div> */}
 
                     {/* Кнопка добавления в корзину */}
                     <button
@@ -202,16 +202,17 @@ const ProductPage = () => {
                 <OffersButton
                     id={product.articul}
                     imageSrc="https://sun9-34.userapi.com/impg/DTM9lA6GxWbcXKbVMXGAIN1wkTXQTbTD4jGZ7A/lPi5nTyhHbs.jpg?size=852x1280&quality=96&sign=12b46bd92dfdac51b2b3d1b3609abe16&type=album"
-                    offerCount={product.merchantsIds.length}
+                    offerCount={3}
+                    // {product.merchantsIds.length}
                 />
             </div>
 
             {/* Секция отзывов */}
-            <ReviewsSection
+            {/* <ReviewsSection
                 reviews={product.reviews}
                 averageRating={product.rating} 
                 totalReviews={product.reviews.length}
-            />
+            /> */}
 
         </div>
     );

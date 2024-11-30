@@ -29,11 +29,14 @@ const MerchantsPage = () => {
     const [maxPrice, setMaxPrice] = useState<number>(1000000); // Максимальная цена по умолчанию
     const [ratingFilter, setRatingFilter] = useState<string>("3.5"); // Рейтинг от 3.5
     const [activeFilter, setActiveFilter] = useState<string>("popular"); // Фильтр "Популярные" по умолчанию
+    const [title, setTitle] = useState('')
 
     useEffect(() => {
         const fetchOffers = async () => {
             try {
-                const response = await axios.get(`${baseUrl()}/v1/auth/product/${id}`);
+                const product = await axios.get(`${baseUrl()}/v1/items/getitems/${id}`);
+                setTitle(product.data.title)
+                const response = await axios.get(`${baseUrl()}/v1/product/${id}`);
                 setOffers(response.data);
                 setFilteredOffers(response.data.offer);
             } catch (err) {
@@ -72,7 +75,7 @@ const MerchantsPage = () => {
 
     return (
         <div className="max-w-6xl mx-auto p-6">
-            <h1 className="text-2xl font-bold mb-6">Футболка Ticle</h1>
+            <h1 className="text-2xl font-bold mb-6">{title}</h1>
 
             {/* Кнопки для фильтрации */}
             <div className="flex space-x-4 mb-6">
