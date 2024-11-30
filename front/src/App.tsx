@@ -9,6 +9,7 @@ import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import CartPage from "./components/CartPage";
 import { useAuth } from "./components/auth/AuthProvider";
+import UserProfilePage from "./components/UserProfilePage";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route path="register" element={<Register />} />
           </Route>
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/profile" element={<UserProfilePage />} />
         </Routes>
       </BrowserRouter>
     </div>
