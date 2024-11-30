@@ -1,3 +1,4 @@
+import json
 from fastapi import Depends
 from sqlalchemy import and_, select
 from app.schema.register_request import Register
@@ -26,7 +27,13 @@ class UserRepository(AbstractRepository):
         return AccessToken(access_token=JWTManager.create_access_token(
             {
                 "id": result.userId,
-                "profile": profile
+                "profile": {
+                    "name": profile.name,
+                    "patronymic": profile.patronymic,
+                    "surname": profile.surname,
+                    "phoneNumber": profile.phoneNumber,
+                    "email": result.email
+                }
             }), token_type="Bearer")
     
     async def register(self, request: Register):

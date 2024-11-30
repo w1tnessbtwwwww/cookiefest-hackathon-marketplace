@@ -2,7 +2,7 @@
 from typing import List
 import random
 from app.database.database import get_session
-from app.database.models.product import Product
+from app.database.models.item import Item
 from app.database.repository.merchant_repository import MerchantRepository
 import asyncio
 """
@@ -48,32 +48,37 @@ import asyncio
     """
 
 async def insert_to_db(path: str):
-    products: List[Product] = []
-    session = await get_session()
-    lines = []
-    with open(path, "r", encoding="utf-8") as file:
-        for line in file:
-            lines.append(line.split(","))
+    print("work")
+    try:
+        products: List[Item] = []
+        session = await get_session()
+        lines = []
+        with open(path, "r", encoding="utf-8") as file:
+            for line in file:
+                lines.append(line.split(","))
 
-        for item in lines[1:]:
-            merchant = await MerchantRepository(session).create_merchant_if_not_exists(item[8])
-            try:
-                product = Product(
-                    title=item[1],
-                    articul=int(str(item[0])),
-                    sale=int(str(item[5])),
-                    quantity=random.randint(0, 151),
-                    price=int(str(item[2])),
-                    merchantId=int(merchant.merchantId),
-                    url = str(item[14]),
-                    rating=round(random.uniform(1,2), random.randint(1, 2)),
-                    reviews=random.randint(400, 7000),
-                )
-                session.add(product)
-            except Exception as e:
-                print(f"Skipped item {item[1]}: {str(e)}")
-    session.commit()
-    session.close()
+            for item in lines[1:]:
+                print(item)
+                merchant = await MerchantRepository(session).create_merchant_if_not_exists(item[8])
+                try:
+                    product = Item(
+                        title=item[1],
+                        articul=int(str(item[0])),
+                        sale=int(str(item[5])),
+                        quantity=random.randint(0, 151),
+                        price=int(str(item[2])),
+                        merchantId=int(merchant.merchantId),
+                        url = str(item[14]),
+                        rating=round(random.uniform(3,5), random.randint(1, 2)),
+                        reviews=random.randint(400, 7000)
+                    )
+                    session.add(product)
+                except Exception as e:
+                    print(f"Skipped item {item[1]}: {str(e)}")
+        session.commit()
+        session.close()
+    except Exception as e:
+        print(str(e))  
 
 
 if __name__ == "__main__":
