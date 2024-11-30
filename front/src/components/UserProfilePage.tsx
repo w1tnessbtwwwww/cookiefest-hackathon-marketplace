@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './auth/AuthProvider';
+import axios from 'axios';
+import baseUrl from '../baseurl';
+import { jwtDecode } from 'jwt-decode';
 
 interface profile {
   surname: string;
@@ -56,13 +59,46 @@ const UserProfilePage: React.FC = () => {
   const [profile, setProfile] = useState<profile | null>(null)
   const { logout, isAuthenticated } = useAuth()
   const navigate = useNavigate()
+  const [userId, setUserId] = useState<number | null>(null)
+
+  useEffect(() => {
+
+  }, [isAuthenticated])
 
   useEffect(() => {
     if (!isAuthenticated) navigate('/auth/login');
-  }, [isAuthenticated, navigate])
+    else {
+      try {
+        const cookies = document.cookie.split("; ").reduce((acc, cookie) => {
+          const [key, value] = cookie.split("=");
+          acc[key] = decodeURIComponent(value || "");
+          return acc;
+        }, {} as Record<string, string>);
+  
+        const rawToken = cookies["jwt_token"];
+  
+        const decodedToken: { [key: string]: any } = jwtDecode(rawToken);
+        setUserId(decodedToken.id);
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get(`${baseUrl()}/user/${userId}`)
+        setProfile(response.data)
+      } catch (err) {
+        console.log('error')
+      }
+    }
+    fetchUser()
+
+  }, [isAuthenticated])
 
   const handleEditProfile = () => {
     // Логика для изменения данных профиля
+
     console.log('Изменить данные');
   };
 
