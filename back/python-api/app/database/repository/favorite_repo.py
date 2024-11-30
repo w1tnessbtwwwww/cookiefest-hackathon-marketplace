@@ -12,13 +12,13 @@ class FavoriteRepository(AbstractRepository):
         self._session = session
 
     async def create(self, fav: CreateFavorite):
-        item = self._session.execute(select(Item).where(Item.articul == fav.articul))
-        exists = self._session.execute(select(self.model).filter_by(userId=fav.userId, productId=item.scalars().first().productId)).scalars().first() is None
+        item = self._session.execute(select(Item).where(Item.articul == fav.articul)).scalars().first()
+        exists = self._session.execute(select(self.model).filter_by(userId=fav.userId, productId=item.productId)).scalars().first() is None
 
         if exists:
             return None
 
-        query = insert(self.model).values(productId=item.scalars().first().productId, userId=fav.userId).returning(self.model)
+        query = insert(self.model).values(productId=item.productId, userId=fav.userId).returning(self.model)
         result = self._session.execute(query)
         await self.commit()
         return result.scalars().first()
