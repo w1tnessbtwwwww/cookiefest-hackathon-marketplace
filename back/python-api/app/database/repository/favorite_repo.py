@@ -2,6 +2,7 @@ from sqlalchemy import delete, insert, select
 from sqlalchemy.orm import Session
 from app.database.models.favorite import Favorite
 from ..abstract.abc_repo import AbstractRepository
+from ..models.item import Item
 
 
 class FavoriteRepository(AbstractRepository):
@@ -16,7 +17,8 @@ class FavoriteRepository(AbstractRepository):
         if exists:
             return None
 
-        query = insert(self.model).values(**kwargs).returning(self.model)
+        item = select(Item).where(Item.articul == kwargs["articul"])
+        query = insert(self.model).values(productId=item.scalars().first().productId, userId=kwargs["userId"]).returning(self.model)
         result = self._session.execute(query)
         await self.commit()
         return result.scalars().first()

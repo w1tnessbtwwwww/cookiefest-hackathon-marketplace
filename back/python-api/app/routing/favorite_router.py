@@ -11,11 +11,11 @@ favorite_router = APIRouter(prefix="/favorite", tags=["Избранные"])
 
 @favorite_router.post("/create")
 async def create_favorite(fav: CreateFavorite, session: Session = Depends(get_session)):
-    return await FavoriteRepository(session).create(fav)
+    return await FavoriteRepository(session).create(userId=fav.userId, articul=fav.articul)
 
 @favorite_router.delete("/delete")
 async def delete_favorite(fav: CreateFavorite, session: Session = Depends(get_session)):
-    return await FavoriteRepository(session).delete_by_id(fav)
+    return await FavoriteRepository(session).delete_by_id(articul=fav.articul)
 
 @favorite_router.get("/userfavourites")
 async def user_favorites(user_id: int, session: Session = Depends(get_session)):
