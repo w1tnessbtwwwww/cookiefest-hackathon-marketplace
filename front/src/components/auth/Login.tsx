@@ -1,29 +1,62 @@
-import axios from 'axios';
-import { useState } from 'react';
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import { useAuth } from "./AuthProvider";
+import { jwtDecode } from "jwt-decode";
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const { login, isAuthenticated } = useAuth(); 
+  const navigate = useNavigate();
+
+  useEffect(()=>{
+    if(isAuthenticated) navigate('/')
+  }, [isAuthenticated, navigate])
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:4000/login', { email, password });
-      const { token } = response.data;
-      localStorage.setItem('token', token); // Сохраняем токен в локальное хранилище
-      alert('Login successful');
+      const response = await axios.post(
+        "http://172.20.10.3:8008/v1/auth/authorize",
+        { email, password },
+        {
+          headers: {
+            accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      
+      if (response.data?.detail) {
+        // Сервер вернул ошибку с кодом 400
+        setError(response.data.detail || "Invalid email or password");
+      } else if (response.data?.access_token) {
+        const token = jwtDecode(response.data.access_token);
+        
+        // Сохраняем токен в cookies
+        document.cookie = `jwt_token=${token}; path=/; SameSite=Lax; Secure`;
+        console.log(token)
+        // Вызываем функцию логина и перенаправляем
+        login();
+        navigate('/');
+      }
     } catch (err) {
-      setError('Invalid credentials');
+      setError("Something went wrong. Please try again later.");
     }
   };
 
   return (
     <form onSubmit={handleLogin}>
       <h2 className="text-xl font-bold mb-4">Вход</h2>
+      {error && <p className="text-red-500 mb-4">{error}</p>}
       <div className="mb-4">
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+        <label
+          htmlFor="email"
+          className="block text-sm font-medium text-gray-700"
+        >
           Email
         </label>
         <input
@@ -36,7 +69,10 @@ const Login: React.FC = () => {
         />
       </div>
       <div className="mb-4">
-        <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+        <label
+          htmlFor="password"
+          className="block text-sm font-medium text-gray-700"
+        >
           Пароль
         </label>
         <input

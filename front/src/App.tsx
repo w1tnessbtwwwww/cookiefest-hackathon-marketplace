@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Header from "./components/header/Header";
 import HomePage from "./components/HomePage";
 import ProductPage from "./components/ProductPage";
@@ -8,6 +8,7 @@ import AuthPage from "./components/auth/AuthPage";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import CartPage from "./components/CartPage";
+import { useAuth } from "./components/auth/AuthProvider";
 
 function App() {
   return (
@@ -29,5 +30,15 @@ function App() {
     </div>
   );
 }
+
+
+const ProtectedRoute: React.FC<{ children: JSX.Element }> = ({ children }) => {
+  const { isAuthenticated } = useAuth();
+  if (!isAuthenticated) {
+    return <Navigate to="/login" />;
+  }
+  return children;
+};
+
 
 export default App;

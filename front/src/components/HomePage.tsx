@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
 import ProductCard from "./ProductCard"
-import { ProductCardProps } from "../types"
+import { Product } from "../types"
 
 
 export default function HomePage() {
-    const [data, setData] = useState<ProductCardProps["product"][]>([])
+    const [data, setData] = useState<Product["product"][]>([])
     useEffect(() => {
         fetch('http://172.20.10.3:8008/v1/items/getshop')
             .then(response => response.json())
