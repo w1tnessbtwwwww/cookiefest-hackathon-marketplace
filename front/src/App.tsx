@@ -9,6 +9,7 @@ import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import CartPage from "./components/CartPage";
 import { useAuth } from "./components/auth/AuthProvider";
+import SearchPage from "./components/SearchPage";
 import UserProfilePage from "./components/UserProfilePage";
 
 function App() {
@@ -20,7 +21,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/productpage/:id" element={<ProductPage />} />
           <Route path="/supplierpage/:id" element={<SupplierPage />} />
-          <Route path="/searchpage" element={<SupplierPage />} />
+          {/* <Route path="/searchpage" element={<SearchPage />} /> */}
           <Route path="/auth" element={<AuthPage />}>
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
