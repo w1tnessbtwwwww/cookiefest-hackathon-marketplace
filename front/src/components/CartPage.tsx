@@ -16,7 +16,7 @@ const initialCartItems: CartItem[] = [
     id: 1,
     name: 'Футболка',
     color: 'Синяя',
-    size: 'Large',
+    size: 'XL',
     price: 32.0,
     image: 'https://sun9-34.userapi.com/impg/DTM9lA6GxWbcXKbVMXGAIN1wkTXQTbTD4jGZ7A/lPi5nTyhHbs.jpg?size=852x1280&quality=96&sign=12b46bd92dfdac51b2b3d1b3609abe16&type=album',
     quantity: 1,
@@ -26,7 +26,7 @@ const initialCartItems: CartItem[] = [
     id: 2,
     name: 'Рубашка',
     color: 'Черная',
-    size: 'Large',
+    size: 'XL',
     price: 32.0,
     image: 'https://sun9-34.userapi.com/impg/DTM9lA6GxWbcXKbVMXGAIN1wkTXQTbTD4jGZ7A/lPi5nTyhHbs.jpg?size=852x1280&quality=96&sign=12b46bd92dfdac51b2b3d1b3609abe16&type=album',
     quantity: 1,
@@ -36,7 +36,7 @@ const initialCartItems: CartItem[] = [
     id: 3,
     name: 'Кепка',
     color: 'Белая',
-    size: '',
+    size: 'L',
     price: 35.0,
     image: 'https://sun9-34.userapi.com/impg/DTM9lA6GxWbcXKbVMXGAIN1wkTXQTbTD4jGZ7A/lPi5nTyhHbs.jpg?size=852x1280&quality=96&sign=12b46bd92dfdac51b2b3d1b3609abe16&type=album',
     quantity: 1,
@@ -136,7 +136,7 @@ const CartPage: React.FC = () => {
               <span className="text-sm text-gray-800">{shippingEstimate.toFixed(2)} ₽</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-sm text-gray-600">Комиссия</span>
+              <span className="text-sm text-gray-600">Налог</span>
               <span className="text-sm text-gray-800">{taxEstimate.toFixed(2)} ₽</span>
             </div>
             <div className="flex justify-between font-bold text-lg">
