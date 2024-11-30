@@ -6,6 +6,6 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile
-    command: ["pytest", "tests"]
+    command: ["pytest", "run_tests.py"]
     env_file:
       - .env
