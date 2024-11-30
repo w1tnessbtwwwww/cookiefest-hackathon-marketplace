@@ -53,7 +53,7 @@ const MerchantsPage = () => {
     const filterOffers = () => {
         if (!offers) return;
 
-        const filtered = offers.offer.filter(
+        const filtered = offers.filter(
             (offer) => offer.price >= minPrice && offer.price <= maxPrice && offer.rating >= parseFloat(ratingFilter)
         );
 
