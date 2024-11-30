@@ -19,13 +19,13 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/productpage/:id" element={<ProductPage />} />
           <Route path="/supplierpage/:id" element={<SupplierPage />} />
-          <Route path="/search" element={<SearchBox />} />
+          <Route path="/searchpage" element={<SupplierPage />} />
           <Route path="/auth" element={<AuthPage />}>
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
           </Route>
-          <Route path="/cart" element={<CartPage />} />
-          <Route path="/profile" element={<UserProfilePage />} />
+          <Route path="/cart/:id" element={<CartPage />} />
+          <Route path="/profile/:id" element={<UserProfilePage />} />
         </Routes>
       </BrowserRouter>
     </div>
