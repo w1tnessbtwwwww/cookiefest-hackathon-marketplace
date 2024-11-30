@@ -59,7 +59,7 @@ const handleAddToCart = () => {
 };
 
 const SearchPage = () => {
-    const { id } = useParams<{ id: string }>();
+    const { query } = useParams<{ query: string }>();
     const [offers, setOffers] = useState<SearchPage[]>(mockOffers);
     const [deliveryFilter, setDeliveryFilter] = useState<string>("any");
     const [minPrice, setMinPrice] = useState<number>(0);
@@ -72,13 +72,13 @@ const SearchPage = () => {
     const filterOffers = () => {
         let filteredOffers = [...mockOffers];
 
-        if (deliveryFilter) {
-            filteredOffers = filteredOffers.filter((offer) => {
-                if (deliveryFilter === "1-2") return parseInt(offer.delivery) <= 2;
-                if (deliveryFilter === "up-to-5") return parseInt(offer.delivery) <= 5;
-                return true;
-            });
-        }
+        // if (deliveryFilter) {
+        //     filteredOffers = filteredOffers.filter((offer) => {
+        //         if (deliveryFilter === "1-2") return parseInt(offer.delivery) <= 2;
+        //         if (deliveryFilter === "up-to-5") return parseInt(offer.delivery) <= 5;
+        //         return true;
+        //     });
+        // }
 
         if (minPrice !== null) {
             filteredOffers = filteredOffers.filter((offer) => offer.price >= minPrice);

@@ -1,9 +1,11 @@
 import Swal from "sweetalert2";
 import ReviewsSection from "./ReviewsSection"; // Импортируем компонент с отзывами
-import { ProductCardProps } from "../types";
+import { ProductPageProps } from "../types";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import OffersButton from "./OffersButton";
+import axios from "axios";
+import baseUrl from "../baseurl";
 
 // interface ProductPageProps {
 //     product: {
@@ -21,69 +23,62 @@ import OffersButton from "./OffersButton";
 
 const ProductPage = () => {
     const { id } = useParams<{ id: string }>();
-    const [product, setProduct] = useState<ProductCardProps["product"] | null>(null)
-    const [activeColorIndex, setActiveColorIndex] = useState(0);
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const [selectedSize, setSelectedSize] = useState<string | null>(null);
+    const [product, setProduct] = useState<ProductPageProps | null>(null)
+    // const [activeColorIndex, setActiveColorIndex] = useState(0);
+    // const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    // const [selectedSize, setSelectedSize] = useState<string | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        //здесь приебенить загрузку с бэка
-        const product1 = {
-            id: 1,
-            imagesByColor: {
-                Black: ['https://optim.tildacdn.com/tild3032-3364-4166-b538-646366303863/-/format/webp/2_29.jpg', 'https://optim.tildacdn.com/tild6162-3437-4461-a436-333562616235/-/format/webp/3_33.jpg', 'https://optim.tildacdn.com/tild3433-3061-4332-a239-353861666635/-/format/webp/4_37.jpg'],
-                White: ['https://optim.tildacdn.com/tild3439-3137-4263-a266-316232396330/-/format/webp/2_28.jpg', 'https://optim.tildacdn.com/tild6661-6262-4661-a261-666366396662/-/format/webp/4_36.jpg', 'https://optim.tildacdn.com/tild3639-6363-4738-b934-303362396132/-/format/webp/5_27.jpg'],
-                Beige: ['https://optim.tildacdn.com/tild3632-3030-4263-b038-336461666339/-/format/webp/2_30.jpg', 'https://optim.tildacdn.com/tild3166-3039-4333-b764-626133643433/-/format/webp/5_29.jpg', 'https://optim.tildacdn.com/tild3662-3761-4563-b434-613363386664/-/format/webp/4_38.jpg'],
-            },
-            title: "Футболка Ticle",
-            price: 1620,
-            oldPrice: 4960,
-            discount: "-67%",
-            rating: 4.8,
-            numReviews: 31601,
-            description: `
-              Футболка оверсайз из плотного хлопка.
-              Состав и уход:
-              - Хлопок 100%
-              - Бережная стирка на 30°
-              - Отжим и сушка запрещена
-              - Не отбеливать
-          
-              На моделе размер: L
-              Параметры модели: рост: 180 | 108-76-110
-            `,
-            colors: [
-                { name: 'Black', hex: '#000000' },
-                { name: 'White', hex: '#FFFFFF' },
-                { name: 'Beige', hex: '#EED9C4' },
-            ],
+        const fetchProduct = async () => {
+            try {
+                const response = await axios.get(`${baseUrl()}/v1/items/getitems/${id}`); 
+                setProduct(response.data);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
         };
-        setProduct(product1)
+        fetchProduct()
     }, [id])
-    const sizes = ["S", "M", "L", "XL"];
-    if (!product) {
-        return <div>Loading...</div>;
+    // const sizes = ["S", "M", "L", "XL"];
+    if (loading) {
+        return <div className="flex justify-center align-center size-full">
+            <span >
+                Loading...
+            </span>
+        </div>;
     }
 
-    const currentImages = product.imagesByColor[product.colors[activeColorIndex].name];
+    if (error || !product) {
+        return <div className="flex justify-center align-center size-full">
+            <span>
+                Error: {error}
+            </span>
+        </div>;
+    }
 
-    const reviews = [
-        { name: "Толстов Марк", rating: 5, comment: "Норм, всегда беру" },
-        { name: "Михалев Тимур", rating: 5, comment: "dumpling" },
-        { name: "Лашков Максим", rating: 4, comment: "Хорошая тишка, но антитер лучше.." },
-        // Добавьте больше отзывов, если нужно
-    ];
+    // const currentImages = product.imagesByColor[product.colors[activeColorIndex].name];
+
+    // const reviews = [
+    //     { name: "Толстов Марк", rating: 5, comment: "Норм, всегда беру" },
+    //     { name: "Михалев Тимур", rating: 5, comment: "dumpling" },
+    //     { name: "Лашков Максим", rating: 4, comment: "Хорошая тишка, но антитер лучше.." },
+    //     // Добавьте больше отзывов, если нужно
+    // ];
 
     // Рассчитываем средний рейтинг
-    const averageRating =
-        reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length;
+    // const averageRating =
+    //     reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length;
 
     // Функции для управления действиями
-    const handleImageChange = (index: number) => setCurrentImageIndex(index);
-    const handleColorChange = (index: number) => {
-        setActiveColorIndex(index);
-        setCurrentImageIndex(0);
-    };
+    // const handleImageChange = (index: number) => setCurrentImageIndex(index);
+    // const handleColorChange = (index: number) => {
+    //     setActiveColorIndex(index);
+    //     setCurrentImageIndex(0);
+    // };
     const handleAddToCart = () => {
         // Получаем текущую корзину из localStorage или создаем пустую
         const currentCart = JSON.parse(localStorage.getItem("cart") || "[]");
@@ -137,11 +132,11 @@ const ProductPage = () => {
                 <div className="flex-1">
                     <div className="relative w-full h-[500px] bg-gray-100 rounded-lg overflow-hidden">
                         <img
-                            src={currentImages[currentImageIndex]}
-                            alt={`Product image ${currentImageIndex + 1}`}
+                            src="https://sun9-34.userapi.com/impg/DTM9lA6GxWbcXKbVMXGAIN1wkTXQTbTD4jGZ7A/lPi5nTyhHbs.jpg?size=852x1280&quality=96&sign=12b46bd92dfdac51b2b3d1b3609abe16&type=album"
+                            // alt={`Product image ${currentImageIndex + 1}`}
                             className="object-contain w-full h-full"
                         />
-                        <button
+                        {/* <button
                             onClick={() => setCurrentImageIndex((prev) => (prev > 0 ? prev - 1 : currentImages.length - 1))}
                             className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-300 rounded-full p-2 hover:bg-gray-400"
                         >
@@ -152,9 +147,9 @@ const ProductPage = () => {
                             className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-300 rounded-full p-2 hover:bg-gray-400"
                         >
                             ❯
-                        </button>
+                        </button> */}
                     </div>
-                    <div className="flex justify-center mt-4 space-x-2">
+                    {/* <div className="flex justify-center mt-4 space-x-2">
                         {currentImages.map((image, index) => (
                             <img
                                 key={index}
@@ -165,7 +160,7 @@ const ProductPage = () => {
                                 onClick={() => handleImageChange(index)}
                             />
                         ))}
-                    </div>
+                    </div> */}
                 </div>
 
                 {/* Правая часть */}
@@ -173,21 +168,21 @@ const ProductPage = () => {
                     <h1 className="text-2xl font-bold text-gray-800">{product.title}</h1>
                     <div className="mt-2 flex items-center space-x-4">
                         <span className="text-xl font-bold text-gray-900">{product.price} ₽</span>
-                        {product.oldPrice && (
-                            <span className="text-sm text-gray-500 line-through">{product.oldPrice} ₽</span>
+                        {product.salePrice && (
+                            <span className="text-sm text-gray-500 line-through">{product.salePrice} ₽</span>
                         )}
-                        {product.discount && (
-                            <span className="text-sm bg-red-600 text-white px-2 py-1 rounded">{product.discount}</span>
+                        {product.sale && (
+                            <span className="text-sm bg-red-600 text-white px-2 py-1 rounded">{product.sale}</span>
                         )}
                     </div>
                     <div className="mt-2 flex items-center">
                         <span className="text-yellow-500 font-medium">{product.rating}</span>
-                        <span className="ml-2 text-sm text-gray-500">({product.numReviews} отзывов)</span>
+                        <span className="ml-2 text-sm text-gray-500">({product.reviews} отзывов)</span>
                     </div>
                     <p className="mt-2 text-sm text-gray-600 whitespace-pre-line">{product.description}</p>
 
                     {/* Выбор цвета */}
-                    <div className="mt-4">
+                    {/* <div className="mt-4">
                         <h3 className="text-sm font-medium text-gray-700">Цвет:</h3>
                         <div className="mt-2 flex space-x-4">
                             {product.colors.map((color, index) => (
@@ -200,12 +195,14 @@ const ProductPage = () => {
                                 ></button>
                             ))}
                         </div>
-                    </div>
+                    </div> */}
 
                     {/* Выбор размера */}
-                    <div className="mt-6">
+                    {/* <div className="mt-6">
                         <h3 className="text-sm font-medium text-gray-700">Размер:</h3>
                         <div className="mt-2 flex space-x-4">
+                        <a href={product.url} target="_blank" rel="noopener noreferrer">Перейти на сайт продавца</a>
+
                             {sizes.map((size) => (
                                 <button
                                     key={size}
@@ -219,7 +216,7 @@ const ProductPage = () => {
                                 </button>
                             ))}
                         </div>
-                    </div>
+                    </div> */}
 
                     {/* Кнопка добавления в корзину */}
                     <button
@@ -233,19 +230,19 @@ const ProductPage = () => {
 
             <div className="my-8">
                 <OffersButton
-                    // ПОМЕТКА ДОРАБОТАТЬ
-                    id={product.id}
-                    imageSrc="https://optim.tildacdn.com/tild6162-3437-4461-a436-333562616235/-/format/webp/3_33.jpg"
+                    id={product.articul}
+                    imageSrc="https://sun9-34.userapi.com/impg/DTM9lA6GxWbcXKbVMXGAIN1wkTXQTbTD4jGZ7A/lPi5nTyhHbs.jpg?size=852x1280&quality=96&sign=12b46bd92dfdac51b2b3d1b3609abe16&type=album"
                     offerCount={3}
+                    // {product.merchantsIds.length}
                 />
             </div>
 
             {/* Секция отзывов */}
-            <ReviewsSection
-                reviews={reviews}
-                averageRating={averageRating} // Используем этот рейтинг
-                totalReviews={reviews.length}
-            />
+            {/* <ReviewsSection
+                reviews={product.reviews}
+                averageRating={product.rating} 
+                totalReviews={product.reviews.length}
+            /> */}
 
         </div>
     );

@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './auth/AuthProvider';
+import { jwtDecode } from 'jwt-decode';
 
-interface profile{
+interface profile {
   surname: string;
   name: string;
   patronymic: string;
+  email: string;
   phoneNumber: string
 }
 
-const userInfo = {
-  name: 'Иван Иванов',
-  email: 'ivan.ivanov@example.com',
-};
 
 const favoriteItems = [
   {
@@ -57,14 +55,34 @@ const UserProfilePage: React.FC = () => {
   const { logout, isAuthenticated } = useAuth()
   const navigate = useNavigate()
 
-  useEffect(()=>{
-    if(!isAuthenticated) navigate('/auth/login');
-  }, [isAuthenticated, navigate])
-  
+  useEffect(() => {
+    if (!isAuthenticated) navigate('/auth/login');
+
+    const getCookie = (name: string): string | null => {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop()!.split(';').shift();
+      return null;
+    };
+
+    const jwtToken = getCookie('jwt_token');
+    if (jwtToken) {
+      try {
+        const decodedToken: { [key: string]: any } = jwtDecode(jwtToken);
+        const { surname, name, patronymic, email, phoneNumber } = decodedToken.profile;
+        setProfile({ surname, name, patronymic, email, phoneNumber });
+      } catch (error) {
+        console.error('Failed to decode JWT token:', error);
+      }
+    }
+  }, [isAuthenticated, navigate]);
   const handleEditProfile = () => {
     // Логика для изменения данных профиля
+
     console.log('Изменить данные');
   };
+
+  if (!profile) return <div>Error</div>
 
   return (
     <div className="container mx-auto p-6">
@@ -74,19 +92,32 @@ const UserProfilePage: React.FC = () => {
         <div className="space-y-2">
           <p>
             <span className="font-semibold">Имя: </span>
-            {userInfo.name}
+            {profile.surname + " " + profile.name + " " + profile.patronymic}
           </p>
           <p>
             <span className="font-semibold">Email: </span>
-            {userInfo.email}
+            {profile.email}
           </p>
-          <button
-            onClick={handleEditProfile}
-            className="mt-4 bg-primary-500 text-white px-4 py-2 rounded hover:bg-primary-600"
-          >
-            Изменить данные
-          </button>
+          <p>
+            <span className="font-semibold">Телефон:  </span>
+            {profile.phoneNumber}
+          </p>
+          <div className='flex gap-3'>
+            <button
+              onClick={handleEditProfile}
+              className="mt-4 bg-primary-500 text-white px-4 py-2 rounded hover:bg-primary-600"
+            >
+              Изменить данные
+            </button>
+            <button
+              onClick={() => { logout() }}
+              className="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+            >
+              Выйти из аккаунта
+            </button>
+          </div>
         </div>
+
       </div>
 
       {/* Избранные товары */}

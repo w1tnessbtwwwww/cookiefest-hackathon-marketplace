@@ -8,7 +8,8 @@ const Register: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const { login, isAuthenticated } = useAuth(); 
+  const [error, setError] = useState('')
+  const { isAuthenticated } = useAuth(); 
   const navigate = useNavigate();
 
   useEffect(()=>{
