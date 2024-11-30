@@ -1,4 +1,4 @@
-export interface Product{
+export interface ProductCardProps{
     product: {
         articul: number;
         title: string;
@@ -6,6 +6,7 @@ export interface Product{
         sale: number;
         salePrice: number;
         rating: number;
+        reviews: number
         quantity: number
         numReviews: number;
         description?: string;

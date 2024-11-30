@@ -1,6 +1,6 @@
 import Swal from "sweetalert2";
 import ReviewsSection from "./ReviewsSection"; // Импортируем компонент с отзывами
-import { Product } from "../types";
+import { ProductCardProps } from "../types";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import OffersButton from "./OffersButton";
@@ -21,7 +21,7 @@ import OffersButton from "./OffersButton";
 
 const ProductPage = () => {
     const { id } = useParams<{ id: string }>();
-    const [product, setProduct] = useState<Product["product"] | null>(null)
+    const [product, setProduct] = useState<ProductCardProps["product"] | null>(null)
     const [activeColorIndex, setActiveColorIndex] = useState(0);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [selectedSize, setSelectedSize] = useState<string | null>(null);

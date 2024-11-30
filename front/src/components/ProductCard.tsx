@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import Swal from 'sweetalert2';
-import { Product } from '../types';
-import { NavLink } from 'react-router-dom';
+import React, { useState } from "react";
+import Swal from "sweetalert2";
+import { Product } from "../types";
+import { NavLink } from "react-router-dom";
 
 const ProductCard: React.FC<Product> = ({ product }) => {
   const [isFavorite, setIsFavorite] = useState(false);
@@ -18,8 +18,8 @@ const ProductCard: React.FC<Product> = ({ product }) => {
         showConfirmButton: false,
         toast: true,
         customClass: {
-          title: 'text-primary-900',
-          content: 'text-black',
+          title: "text-primary-900",
+          content: "text-black",
         },
       });
     }
@@ -35,8 +35,8 @@ const ProductCard: React.FC<Product> = ({ product }) => {
       showConfirmButton: false,
       toast: true,
       customClass: {
-        title: 'text-primary-900',
-        content: 'text-black',
+        title: "text-primary-900",
+        content: "text-black",
       },
     });
   };
@@ -59,21 +59,45 @@ const ProductCard: React.FC<Product> = ({ product }) => {
           )}
         </div>
       </NavLink>
-      
+
       {/* Контент карточки */}
       <div className="p-4">
-        <h5 className="text-sm font-semibold text-gray-800 truncate">{product.title}</h5>
+        <h5 className="text-sm font-semibold text-gray-800 truncate">
+          {product.title}
+        </h5>
         <div className="flex items-center mt-2">
-          <span className="text-yellow-500 text-sm font-medium">{product.rating}</span>
-          <span className="ml-2 text-xs text-gray-500">({product.numReviews} оценок)</span>
+          <span className="flex items-center text-yellow-500 text-sm font-medium gap-1">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              className="size-3"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"
+              />
+            </svg>
+            {product.rating}
+          </span>
+          <span className="ml-2 text-xs text-gray-500">
+            ({product.reviews} оценок)
+          </span>
         </div>
         <div className="flex items-center mt-2">
-          <span className="text-xl font-bold text-gray-900">{product.price} ₽</span>
+          <span className="text-xl font-bold text-gray-900">
+            {product.price} ₽
+          </span>
           {product.salePrice && (
-            <span className="text-sm text-gray-500 line-through ml-2">{product.salePrice} ₽</span>
+            <span className="text-sm text-gray-500 line-through ml-2">
+              {product.salePrice} ₽
+            </span>
           )}
         </div>
-        
+
         {/* Блок кнопок */}
         <div className="flex items-center justify-between mt-4">
           <button
@@ -86,13 +110,13 @@ const ProductCard: React.FC<Product> = ({ product }) => {
             onClick={handleAddToFavorite}
             className={`text-sm transition-colors ${
               isFavorite
-                ? 'text-primary-700'
-                : 'text-gray-500 hover:text-primary-700'
+                ? "text-primary-700"
+                : "text-gray-500 hover:text-primary-700"
             }`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              fill={isFavorite ? 'currentColor' : 'none'}
+              fill={isFavorite ? "currentColor" : "none"}
               viewBox="0 0 24 24"
               strokeWidth={2}
               stroke="currentColor"

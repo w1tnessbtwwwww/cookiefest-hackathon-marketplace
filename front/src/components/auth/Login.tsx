@@ -1,17 +1,26 @@
+import axios from 'axios';
 import { useState } from 'react';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Логин:', { email, password });
-    // Логика авторизации
+
+    try {
+      const response = await axios.post('http://localhost:4000/login', { email, password });
+      const { token } = response.data;
+      localStorage.setItem('token', token); // Сохраняем токен в локальное хранилище
+      alert('Login successful');
+    } catch (err) {
+      setError('Invalid credentials');
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleLogin}>
       <h2 className="text-xl font-bold mb-4">Вход</h2>
       <div className="mb-4">
         <label htmlFor="email" className="block text-sm font-medium text-gray-700">
