@@ -130,7 +130,7 @@ def scrap_page(page: int, shard: str, query: str, low_price: int, top_price: int
 def save_excel(data: list, filename: str):
     """сохранение результата в excel файл"""
     df = pd.DataFrame(data)
-    df.to_csv("parsing_tshirt.csv", index=False)
+    df.to_csv("parsing_phones.csv", index=False)
     # указываем размеры каждого столбца в итоговом файле
     print(f'Все сохранено в {filename}.csv\n')
 
@@ -186,11 +186,11 @@ if __name__ == '__main__':
     # """для exe приложения(чтобы сделать exe файл - pip install auto_py_to_exe для установки, для запуска auto-py-to-exe)"""
     while True:
         try:
-            url = "https://www.wildberries.ru/catalog/muzhchinam/odezhda/futbolki-i-mayki"
+            url = "https://www.wildberries.ru/catalog/elektronika/smartfony-i-telefony/vse-smartfony"
             if url == 'q':
                 break
-            low_price = 200
-            top_price = 20000
+            low_price = 5000
+            top_price = 200000
             discount = 0
             parser(url=url, low_price=low_price, top_price=top_price, discount=discount)
         except Exception as e:

@@ -9,8 +9,7 @@ from app.schema.register_profile import RegisterProfile
 profile_router = APIRouter(prefix="/profile", tags=["Профиль"])
 
 @profile_router.post("/createProfile")
-async def create_profile(user_id: int, profile: RegisterProfile, session: Session = Depends(get_session)):
-    try:
-        return await ProfileRepository(session).create_profile(profile)
-    except:
-        return HTTPException(status_code=500, detail="Some Error...")
+async def create_profile(profile: RegisterProfile, session: Session = Depends(get_session)):
+    return await ProfileRepository(session).register_profile(profile)
+
+

@@ -11,11 +11,17 @@ class ProfileRepository(AbstractRepository):
         self._session = session
 
     async def register_profile(self, register: RegisterProfile):
-        query = select(self.model).where(self.model.email == register.email)
+        query = select(self.model).where(self.model.userId == register.userId)
         result = self._session.execute(query).scalars().one_or_none()
 
         if result is None:
-            created = await self.create(register)
+            created = await self.create(
+                userId=register.userId,
+                surname=register.surname,
+                name=register.name,
+                patronymic=register.patronymic,
+                phoneNumber=register.phoneNumber
+            )
             await self.commit()
             return created
         
