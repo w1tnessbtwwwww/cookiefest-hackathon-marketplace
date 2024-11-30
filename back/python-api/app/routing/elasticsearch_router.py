@@ -12,28 +12,10 @@ elastic_router = APIRouter(prefix="/elastic", tags=["Elasticsearch"])
 async def get_products(passphrase: str, session: Session = Depends(get_session)):
     if passphrase != config.ELASTICSEARCH_KEYWORD:
         raise HTTPException(status_code=401, detail="Unauthorized")
-
-    """
-    {
-  "mappings": {
-    "properties": {
-      "articul": {"type": "keyword"},
-      "title": { "type": "text", "analyzer": "russian"},
-      "description": { "type": "text", "analyzer": "russian"},
-      "merchant": { "type": "keyword" },
-      "on_sale": { "type": "boolean" },
-      "price": { "type": "integer" },
-      "sale": { "type": "integer" },
-      "rating": { "type": "float" },
-      "quantity": { "type": "integer" },
-      "reviews": { "type": "integer" }
-    }
-  }
-}
-    """
+    
     query = (
-        select(Product, Merchant)
-        .join(Merchant, Product.merchantId == Merchant.merchantId)
+        select(Product, Merchant.name.label("merchantName"))
+        .join(Merchant, Merchant.merchantId == Product.merchantId)
     )
-    products = session.execute(query).scalars().all()
+    products = session.execute(query).mappings().all()
     return products
