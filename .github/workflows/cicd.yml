@@ -1,0 +1,37 @@
+# .github/workflows/ci.yml
+name: CI
+
+on:
+  push:
+    branches:
+      - develop
+      - main
+      - backend-alex
+  pull_request:
+    branches:
+      - develop
+      - main
+      
+
+jobs:
+  test:
+    runs-on: cookiefesthost
+
+    steps:
+    - name: Cloning Repository
+      uses: actions/checkout@v2
+
+    - name: Cloning Python .env
+      run: |
+        cd back/python-api
+        echo "${{ secrets.ENV_PYTHON}}" > .env
+
+    - name: Running Tests
+      run: |
+        cd back/python-api/
+        make tests
+
+    - name: Running API
+      run: |
+        cd back/python-api/
+        make deploy
