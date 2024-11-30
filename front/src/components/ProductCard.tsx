@@ -30,7 +30,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     const currentCart = JSON.parse(localStorage.getItem("cart") || "[]");
   
     // Проверяем, есть ли уже товар в корзине
-    const isItemInCart = currentCart.some((item: string) => item === product.articul);
+    const isItemInCart = currentCart.some((item: number) => item === product.articul);
   
     if (!isItemInCart) {
       // Добавляем артикул товара в корзину

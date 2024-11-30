@@ -4,6 +4,7 @@ import { useAuth } from './auth/AuthProvider';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import baseUrl from '../baseurl';
+import { productNewType } from '../types';
 
 interface Profile {
   surname: string;
@@ -14,27 +15,10 @@ interface Profile {
 }
 
 
-interface ordersType {
-  articul: number;
-  price: number;
-  sale: number;
-  url: string;
-  reviews: number;
-  description: null | string;
-  productId: number;
-  title: string;
-  quantity: number;
-  salePrice: null | number;
-  merchantId: number;
-  rating: number;
-  productCategoryId?: number | null
-}
-
-
 
 const UserProfilePage: React.FC = () => {
-  const [favorites, setFavorites] = useState<ordersType | []>([]);
-  const [orders, setOrders] = useState<ordersType | []>([]);
+  const [favorites, setFavorites] = useState<productNewType | []>([]);
+  const [orders, setOrders] = useState<productNewType | []>([]);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [userId, setUserId] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);

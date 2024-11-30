@@ -116,8 +116,6 @@ export default function Header() {
             </Link>
             {isAuthenticated ? (
               <div className="flex">
-                
-                
                 <Link
                   to="/profile"
                   className="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 px-2"

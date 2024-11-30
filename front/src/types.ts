@@ -23,6 +23,23 @@ export interface Review {
     text: string;
 }
 
+export interface productNewType {
+    articul: number;
+    price: number;
+    sale: number;
+    url: string;
+    reviews: number;
+    description: null | string;
+    productId: number;
+    title: string;
+    quantity: number;
+    salePrice: null | number;
+    merchantId: number;
+    rating: number;
+    productCategoryId?: number | null
+  }
+  
+
 export interface ProductPageProps {
     articul: number;
     title: string;
