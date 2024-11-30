@@ -7,7 +7,7 @@ import { useAuth } from "../auth/AuthProvider";
 
 export default function Header() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const { isAuthenticated, login, logout } = useAuth();
+  const { isAuthenticated } = useAuth();
 
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
