@@ -9,7 +9,7 @@ import { jwtDecode } from "jwt-decode";
 export default function HomePage() {
     const [data, setData] = useState<ProductCardProps["product"][]>([]);
     const [isChatOpen, setIsChatOpen] = useState(false);
-    const [userMessage, setUserMessage] = useState("");
+    const [report, setReport] = useState("");
     const [messages, setMessages] = useState<string[]>(["Добро пожаловать! Как мы можем помочь?"]);
     const { isAuthenticated } = useAuth()
     const [userId, setUserId] = useState<number | null>(null)
@@ -42,14 +42,21 @@ export default function HomePage() {
     const toggleChat = () => setIsChatOpen(!isChatOpen);
 
     const handleSendMessage = () => {
-        if (userMessage.trim()) {
-            setMessages((prevMessages) => [...prevMessages, userMessage]);
-            setUserMessage("");
+        if (report.trim()) {
+            setMessages((prevMessages) => [...prevMessages, report]);
+            setReport("");
             const postMessage = async () => {
                 try {
+                    console.log(userId)
                     const response = await axios.post(
-                        `${baseUrl()}/v1/auth/support`,
-                        { userId, userMessage }
+                        `${baseUrl()}/v1/ticket/create`,
+                        { userId, report },
+                        {
+                            headers: {
+                              accept: "application/json",
+                              "Content-Type": "application/json",
+                            },
+                        }
                     );
                     if(response) alert('nice')
                     else alert('oh no')
@@ -126,8 +133,8 @@ export default function HomePage() {
                     <div className="p-4 border-t border-gray-300 flex items-center">
                         <input
                             type="text"
-                            value={userMessage}
-                            onChange={(e) => setUserMessage(e.target.value)}
+                            value={report}
+                            onChange={(e) => setReport(e.target.value)}
                             placeholder="Введите сообщение..."
                             className="flex-1 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-800 focus:border-primary-800"
                         />
