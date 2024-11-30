@@ -34,7 +34,7 @@ const Login: React.FC = () => {
         // Сервер вернул ошибку с кодом 400
         setError(response.data.detail || "Invalid email or password");
       } else if (response.data?.access_token) {
-        const token = jwtDecode(response.data.access_token);
+        const token = response.data.access_token;
         
         // Сохраняем токен в cookies
         document.cookie = `jwt_token=${token}; path=/; SameSite=Lax; Secure`;

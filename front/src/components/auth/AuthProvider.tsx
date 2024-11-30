@@ -30,7 +30,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       if (cookies["jwt_token"]) {
         setIsAuthenticated(true);
-        console.log(cookies['jwt_token'])
+        console.log(cookies)
       } else {
         setIsAuthenticated(false);
       }
