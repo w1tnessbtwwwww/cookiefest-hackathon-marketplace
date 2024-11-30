@@ -7,15 +7,17 @@ from ..schema.create_favorite import CreateFavorite
 from ..database.models.user import User
 from ..database.models.favorite import Favorite
 from ..database.models.item import Item
+from ..schema.articul_delete import ArticulDelete
 favorite_router = APIRouter(prefix="/favorite", tags=["Избранные"])
 
 @favorite_router.post("/create")
 async def create_favorite(fav: CreateFavorite, session: Session = Depends(get_session)):
-    return await FavoriteRepository(session).create(fav)
+    result = await FavoriteRepository(session).create_fav(fav)
+    return result.favoriteId
 
 @favorite_router.delete("/delete")
-async def delete_favorite(fav: CreateFavorite, session: Session = Depends(get_session)):
-    return await FavoriteRepository(session).delete_by_id(articul=fav.articul)
+async def delete_favorite(deleting: ArticulDelete, session: Session = Depends(get_session)):
+    return await FavoriteRepository(session).delete_by_articul(deleting) 
 
 @favorite_router.get("/userfavourites")
 async def user_favorites(user_id: int, session: Session = Depends(get_session)):
