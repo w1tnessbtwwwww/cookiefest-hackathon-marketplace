@@ -8,6 +8,9 @@
       "avg_rating": {
         "type": "float"
       },
+      "category": {
+        "type": "keyword"
+      },
       "description": {
         "type": "text",
         "analyzer": "russian"
