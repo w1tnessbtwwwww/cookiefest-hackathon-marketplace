@@ -36,12 +36,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         acc[key] = decodeURIComponent(value || "");
         return acc;
       }, {} as Record<string, string>);
-<<<<<<< HEAD
-
-      if (cookies["jwt_token"]) {
-        setIsAuthenticated(true);
-        console.log(cookies)
-=======
   
       const rawToken = cookies["jwt_token"];
   
@@ -71,7 +65,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           console.error("Invalid JWT token:", error);
           setIsAuthenticated(false);
         }
->>>>>>> frontend-max
       } else {
         console.log("JWT token not found");
         setIsAuthenticated(false);

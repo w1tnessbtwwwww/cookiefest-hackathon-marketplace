@@ -1,23 +1,58 @@
-import { useState } from 'react';
+import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router";
+import { useAuth } from "./AuthProvider";
 
 const Register: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (password !== confirmPassword) {
-      alert('Пароли не совпадают');
+      setError("Пароли не совпадают");
       return;
     }
-    console.log('Регистрация:', { email, password });
-    // Логика регистрации
+
+    try {
+      const response = await axios.post(
+        "http://172.20.10.3:8008/v1/auth/register",
+        { email, password },
+        {
+          headers: {
+            accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.data?.detail) {
+        // Обработка ошибок сервера
+        setError(response.data.detail || "Ошибка регистрации");
+      } else if (response.data?.access_token) {
+        const token = response.data.access_token;
+
+        // Сохранение токена в cookies
+        document.cookie = `jwt_token=${token}; path=/; SameSite=Lax; Secure`;
+
+        // Логин и навигация
+        login();
+        navigate("/");
+      }
+    } catch (err) {
+      setError("Что-то пошло не так. Попробуйте еще раз.");
+    }
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <h2 className="text-xl font-bold mb-4">Регистрация</h2>
+      {error && <p className="text-red-500 mb-4">{error}</p>}
       <div className="mb-4">
         <label htmlFor="email" className="block text-sm font-medium text-gray-700">
           Email
