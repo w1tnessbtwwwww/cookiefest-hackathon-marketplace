@@ -86,33 +86,33 @@ export default function HomePage() {
                         ))}
                     </div>
                     <div className="p-4 border-t border-gray-300 flex items-center">
-    <input
-        type="text"
-        value={userMessage}
-        onChange={(e) => setUserMessage(e.target.value)}
-        placeholder="Введите сообщение..."
-        className="flex-1 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-800 focus:border-primary-800"
-    />
-    <a
-        href="#"
-        className="ml-2 bg-primary-800 text-white p-3 rounded-full hover:bg-primary-500 focus:outline-none flex items-center justify-center"
-    >
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            className="w-6 h-6"
-        >
-            <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
-            />
-        </svg>
-    </a>
-</div>
+                        <input
+                            type="text"
+                            value={userMessage}
+                            onChange={(e) => setUserMessage(e.target.value)}
+                            placeholder="Введите сообщение..."
+                            className="flex-1 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-800 focus:border-primary-800"
+                        />
+                        <a
+                            href="#"
+                            className="ml-2 bg-primary-800 text-white p-3 rounded-full hover:bg-primary-500 focus:outline-none flex items-center justify-center"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth="1.5"
+                                stroke="currentColor"
+                                className="w-6 h-6"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+                                />
+                            </svg>
+                        </a>
+                    </div>
 
                 </div>
             )}

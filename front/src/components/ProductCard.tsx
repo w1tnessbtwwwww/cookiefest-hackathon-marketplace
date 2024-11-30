@@ -26,21 +26,51 @@ const ProductCard: React.FC<Product> = ({ product }) => {
   };
 
   const handleAddToCart = () => {
-    Swal.fire({
-      title: "Товар добавлен в корзину!",
-      text: "Теперь вы можете перейти в корзину или продолжить покупки.",
-      icon: "success",
-      position: "top-end",
-      timer: 3000,
-      showConfirmButton: false,
-      toast: true,
-      customClass: {
-        title: "text-primary-900",
-        content: "text-black",
-      },
-    });
+    // Получаем текущую корзину из localStorage или создаем пустую
+    const currentCart = JSON.parse(localStorage.getItem("cart") || "[]");
+  
+    // Проверяем, есть ли уже товар в корзине
+    const isItemInCart = currentCart.some((item: string) => item === product.articul);
+  
+    if (!isItemInCart) {
+      // Добавляем артикул товара в корзину
+      currentCart.push(product.articul);
+  
+      // Сохраняем обновленную корзину в localStorage
+      localStorage.setItem("cart", JSON.stringify(currentCart));
+  
+      // Уведомление о добавлении товара
+      Swal.fire({
+        title: "Товар добавлен в корзину!",
+        text: "Теперь вы можете перейти в корзину или продолжить покупки.",
+        icon: "success",
+        position: "top-end",
+        timer: 3000,
+        showConfirmButton: false,
+        toast: true,
+        customClass: {
+          title: "text-primary-900",
+          content: "text-black",
+        },
+      });
+    } else {
+      // Уведомление, если товар уже в корзине
+      Swal.fire({
+        title: "Этот товар уже в корзине!",
+        text: "Вы можете добавить другой товар или проверить корзину.",
+        icon: "info",
+        position: "top-end",
+        timer: 3000,
+        showConfirmButton: false,
+        toast: true,
+        customClass: {
+          title: "text-primary-900",
+          content: "text-black",
+        },
+      });
+    }
   };
-
+  
   return (
     <div className="w-72 m-auto bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden transition-transform transform hover:scale-105">
       {/* NavLink только вокруг изображения */}

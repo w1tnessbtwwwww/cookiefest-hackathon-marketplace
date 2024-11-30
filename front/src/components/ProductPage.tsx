@@ -85,7 +85,21 @@ const ProductPage = () => {
         setCurrentImageIndex(0);
     };
     const handleAddToCart = () => {
-        Swal.fire({
+        // Получаем текущую корзину из localStorage или создаем пустую
+        const currentCart = JSON.parse(localStorage.getItem("cart") || "[]");
+      
+        // Проверяем, есть ли уже товар в корзине
+        const isItemInCart = currentCart.some((item: string) => item === id);
+      
+        if (!isItemInCart) {
+          // Добавляем артикул товара в корзину
+          currentCart.push(id);
+      
+          // Сохраняем обновленную корзину в localStorage
+          localStorage.setItem("cart", JSON.stringify(currentCart));
+      
+          // Уведомление об успешном добавлении
+          Swal.fire({
             title: "Товар добавлен в корзину!",
             text: "Теперь вы можете перейти в корзину или продолжить покупки.",
             icon: "success",
@@ -94,12 +108,28 @@ const ProductPage = () => {
             showConfirmButton: false,
             toast: true,
             customClass: {
-                title: 'text-primary-900', // Красный цвет заголовка
-                content: 'text-black' // Черный цвет текста
-            }
-        });
-    };
-
+              title: 'text-primary-900', // Красный цвет заголовка
+              content: 'text-black', // Черный цвет текста
+            },
+          });
+        } else {
+          // Уведомление, если товар уже в корзине
+          Swal.fire({
+            title: "Этот товар уже в корзине!",
+            text: "Вы можете добавить другой товар или проверить корзину.",
+            icon: "info",
+            position: "top-end",
+            timer: 3000,
+            showConfirmButton: false,
+            toast: true,
+            customClass: {
+              title: 'text-primary-900', // Красный цвет заголовка
+              content: 'text-black', // Черный цвет текста
+            },
+          });
+        }
+      };
+      
     return (
         <div className="max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-md">
             <div className="flex">
