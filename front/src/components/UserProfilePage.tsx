@@ -1,4 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from './auth/AuthProvider';
+
+interface profile{
+  surname: string;
+  name: string;
+  patronymic: string;
+  phoneNumber: string
+}
 
 const userInfo = {
   name: 'Иван Иванов',
@@ -44,6 +53,18 @@ const orderHistory = [
 const UserProfilePage: React.FC = () => {
   const [favorites, setFavorites] = useState(favoriteItems);
   const [orders, setOrders] = useState(orderHistory);
+  const [profile, setProfile] = useState<profile | null>(null)
+  const { logout, isAuthenticated } = useAuth()
+  const navigate = useNavigate()
+
+  useEffect(()=>{
+    if(!isAuthenticated) navigate('/auth/login');
+  }, [isAuthenticated, navigate])
+  
+  const handleEditProfile = () => {
+    // Логика для изменения данных профиля
+    console.log('Изменить данные');
+  };
 
   return (
     <div className="container mx-auto p-6">
@@ -59,6 +80,12 @@ const UserProfilePage: React.FC = () => {
             <span className="font-semibold">Email: </span>
             {userInfo.email}
           </p>
+          <button
+            onClick={handleEditProfile}
+            className="mt-4 bg-primary-500 text-white px-4 py-2 rounded hover:bg-primary-600"
+          >
+            Изменить данные
+          </button>
         </div>
       </div>
 

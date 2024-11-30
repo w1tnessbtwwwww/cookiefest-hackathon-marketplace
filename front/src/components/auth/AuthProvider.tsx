@@ -20,13 +20,13 @@ export const useAuth = () => {
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const getCookies = (): Record<string, string> => {
-    return document.cookie.split("; ").reduce((acc, cookie) => {
-      const [key, value] = cookie.split("=");
-      acc[key] = decodeURIComponent(value);
-      return acc;
-    }, {} as Record<string, string>);
-  };
+  // const getCookies = (): Record<string, string> => {
+  //   return document.cookie.split("; ").reduce((acc, cookie) => {
+  //     const [key, value] = cookie.split("=");
+  //     acc[key] = decodeURIComponent(value);
+  //     return acc;
+  //   }, {} as Record<string, string>);
+  // };
 
   // Проверка токена в cookies
   useEffect(() => {

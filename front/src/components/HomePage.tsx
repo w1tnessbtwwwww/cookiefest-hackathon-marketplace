@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 import { ProductCardProps } from "../types";
+import baseUrl from "../baseurl";
 
 export default function HomePage() {
     const [data, setData] = useState<ProductCardProps["product"][]>([]);
@@ -9,7 +10,7 @@ export default function HomePage() {
     const [messages, setMessages] = useState<string[]>(["Добро пожаловать! Как мы можем помочь?"]);
 
     useEffect(() => {
-        fetch("http://172.20.10.3:8008/v1/items/getshop")
+        fetch(`${baseUrl()}/v1/items/getshop`)
             .then((response) => response.json())
             .then((data) => setData(data))
             .catch((error) => console.error("Ошибка при загрузке данных:", error));

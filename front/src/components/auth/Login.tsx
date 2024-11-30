@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "./AuthProvider";
-import { jwtDecode } from "jwt-decode";
+import baseUrl from "../../baseurl";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -20,7 +20,7 @@ const Login: React.FC = () => {
 
     try {
       const response = await axios.post(
-        "http://172.20.10.3:8008/v1/auth/authorize",
+        `${baseUrl()}/v1/auth/authorize`,
         { email, password },
         {
           headers: {

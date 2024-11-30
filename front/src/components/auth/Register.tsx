@@ -1,15 +1,19 @@
-import { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router";
-import { useAuth } from "./AuthProvider";
+import { useEffect, useState } from 'react';
+import { useAuth } from './AuthProvider';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import baseUrl from '../../baseurl';
 
 const Register: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const { login } = useAuth();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const { login, isAuthenticated } = useAuth(); 
   const navigate = useNavigate();
+
+  useEffect(()=>{
+    if(isAuthenticated) navigate('/')
+  }, [isAuthenticated, navigate])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,10 +22,9 @@ const Register: React.FC = () => {
       setError("Пароли не совпадают");
       return;
     }
-
     try {
       const response = await axios.post(
-        "http://172.20.10.3:8008/v1/auth/register",
+        `${baseUrl()}/v1/auth/register`,
         { email, password },
         {
           headers: {
@@ -30,24 +33,18 @@ const Register: React.FC = () => {
           },
         }
       );
-
-      if (response.data?.detail) {
-        // Обработка ошибок сервера
-        setError(response.data.detail || "Ошибка регистрации");
-      } else if (response.data?.access_token) {
-        const token = response.data.access_token;
-
-        // Сохранение токена в cookies
-        document.cookie = `jwt_token=${token}; path=/; SameSite=Lax; Secure`;
-
-        // Логин и навигация
-        login();
-        navigate("/");
+      
+      if (response.data?.status_code != 400) {
+        alert('Успешная регистрация')
+        navigate('/auth/login');
       }
+      else alert(response.data?.detail)
+      
     } catch (err) {
-      setError("Что-то пошло не так. Попробуйте еще раз.");
+      console.log('ashibka')
     }
   };
+
 
   return (
     <form onSubmit={handleSubmit}>
