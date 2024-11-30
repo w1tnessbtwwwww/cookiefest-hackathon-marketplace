@@ -1,19 +1,48 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useAuth } from './AuthProvider';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Register: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const { login, isAuthenticated } = useAuth(); 
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(()=>{
+    if(isAuthenticated) navigate('/')
+  }, [isAuthenticated, navigate])
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       alert('Пароли не совпадают');
       return;
     }
-    console.log('Регистрация:', { email, password });
-    // Логика регистрации
+    try {
+      const response = await axios.post(
+        "http://172.20.10.3:8008/v1/auth/register",
+        { email, password },
+        {
+          headers: {
+            accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      
+      if (response.data?.status_code != 400) {
+        alert('Успешная регистрация')
+        navigate('/auth/login');
+      }
+      else alert(response.data?.detail)
+      
+    } catch (err) {
+      console.log('ashibka')
+    }
   };
+
 
   return (
     <form onSubmit={handleSubmit}>
