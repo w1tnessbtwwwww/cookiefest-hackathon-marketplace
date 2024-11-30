@@ -1,3 +1,7 @@
+
+tests:
+	docker-compose --env-file .env -f docker/docker-compose.test.yml --project-directory . up --build
+
 deploy:
 	docker-compose --env-file .env -f docker/docker-compose.yml --project-directory . up --build
 
