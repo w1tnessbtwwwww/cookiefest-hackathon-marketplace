@@ -86,9 +86,8 @@ const CartPage: React.FC = () => {
                   <p className="text-sm text-gray-500">{item.color} / {item.size}</p>
                   <p className="text-sm font-medium text-primary-700">{item.price} ₽</p>
                   <p
-                    className={`text-sm ${
-                      item.stockStatus === 'in stock' ? 'text-green-500' : 'text-gray-500'
-                    }`}
+                    className={`text-sm ${item.stockStatus === 'in stock' ? 'text-green-500' : 'text-gray-500'
+                      }`}
                   >
                     {item.stockStatus === 'in stock' ? 'In stock' : 'Ships in 3–4 weeks'}
                   </p>
@@ -144,9 +143,27 @@ const CartPage: React.FC = () => {
               <span>{total.toFixed(2)} ₽</span>
             </div>
           </div>
-          <button className="w-full bg-primary-700 hover:bg-primary-800 text-white py-2 rounded-lg mt-6">
+          <button
+            id="order-button"
+            className="w-full bg-primary-700 hover:bg-primary-800 text-white py-2 rounded-lg mt-6"
+          >
             Заказать
           </button>
+
+          <div className="flex items-center mt-6">
+            <input
+              id="terms-checkbox"
+              type="checkbox"
+              className="w-5 h-5 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 focus:ring-2"
+            />
+            <label htmlFor="terms-checkbox" className="ml-2 text-sm text-gray-700">
+              Соглашаюсь с{' '}
+              <a href="#" className="text-purple-600 hover:underline">
+                правилами пользования торговой площадкой
+              </a>{' '}
+              и возврата
+            </label>
+          </div>
         </div>
       </div>
     </div>
