@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from app.database.models.favorite import Favorite
 from ..abstract.abc_repo import AbstractRepository
 from ..models.item import Item
-
+from app.schema.create_favorite import CreateFavorite
 
 class FavoriteRepository(AbstractRepository):
     model = Favorite
@@ -11,14 +11,14 @@ class FavoriteRepository(AbstractRepository):
     def __init__(self, session: Session):
         self._session = session
 
-    async def create(self, **kwargs):
-        exists = self._session.execute(select(self.model).filter_by(**kwargs)).scalars().first() is None
+    async def create(self, fav: CreateFavorite):
+        item = self._session.execute(select(Item).where(Item.articul == fav.articul))
+        exists = self._session.execute(select(self.model).filter_by(userId=fav.userId, productId=item.scalars().first().productId)).scalars().first() is None
 
         if exists:
             return None
 
-        item = select(Item).where(Item.articul == kwargs["articul"])
-        query = insert(self.model).values(productId=item.scalars().first().productId, userId=kwargs["userId"]).returning(self.model)
+        query = insert(self.model).values(productId=item.scalars().first().productId, userId=fav.userId).returning(self.model)
         result = self._session.execute(query)
         await self.commit()
         return result.scalars().first()
