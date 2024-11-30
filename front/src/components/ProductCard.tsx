@@ -84,7 +84,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           />
           {product.sale && (
             <span className="absolute top-2 left-2 bg-red-600 text-white text-xs font-semibold px-2 py-0.5 rounded">
-              -{product.sale}%
+              –{product.sale}%
             </span>
           )}
         </div>

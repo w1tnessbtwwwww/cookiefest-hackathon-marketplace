@@ -172,7 +172,7 @@ const ProductPage = () => {
                             <span className="text-sm text-gray-500 line-through">{product.salePrice} ₽</span>
                         )}
                         {product.sale && (
-                            <span className="text-sm bg-red-600 text-white px-2 py-1 rounded">{product.sale}</span>
+                            <span className="text-sm bg-red-600 text-white px-2 py-1 rounded">–{product.sale}%</span>
                         )}
                     </div>
                     <div className="mt-2 flex items-center">
@@ -180,6 +180,7 @@ const ProductPage = () => {
                         <span className="ml-2 text-sm text-gray-500">({product.reviews} отзывов)</span>
                     </div>
                     <p className="mt-2 text-sm text-gray-600 whitespace-pre-line">{product.description}</p>
+                    <a href={product.url} target="_blank" className="text-primary-500 underline ">Перейти на сайт продавца</a>
 
                     {/* Выбор цвета */}
                     {/* <div className="mt-4">
@@ -225,6 +226,7 @@ const ProductPage = () => {
                     >
                         Добавить в корзину
                     </button>
+                    
                 </div>
             </div>
 

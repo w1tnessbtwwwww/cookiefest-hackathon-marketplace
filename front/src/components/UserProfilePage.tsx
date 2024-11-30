@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './auth/AuthProvider';
 import { jwtDecode } from 'jwt-decode';
+import axios from 'axios';
+import baseUrl from '../baseurl';
 
 interface profile {
   surname: string;
@@ -52,9 +54,11 @@ const UserProfilePage: React.FC = () => {
   const [favorites, setFavorites] = useState(favoriteItems);
   const [orders, setOrders] = useState(orderHistory);
   const [profile, setProfile] = useState<profile | null>(null)
+  const [userId, setUserId] = useState<number | null>(null)
   const { logout, isAuthenticated } = useAuth()
   const navigate = useNavigate()
 
+  //cookie
   useEffect(() => {
     if (!isAuthenticated) navigate('/auth/login');
 
@@ -70,12 +74,19 @@ const UserProfilePage: React.FC = () => {
       try {
         const decodedToken: { [key: string]: any } = jwtDecode(jwtToken);
         const { surname, name, patronymic, email, phoneNumber } = decodedToken.profile;
+        setUserId(decodedToken.id)
         setProfile({ surname, name, patronymic, email, phoneNumber });
       } catch (error) {
         console.error('Failed to decode JWT token:', error);
       }
     }
   }, [isAuthenticated, navigate]);
+
+  useEffect(()=>{
+    const fetchFavorites = async () => {
+      const response = await axios.get(`${baseUrl()}/v1/`)
+    }
+  }, [])
   const handleEditProfile = () => {
     // Логика для изменения данных профиля
 
