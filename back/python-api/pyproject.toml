@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "cookiefest"
+name = "python-api"
 version = "0.1.0"
 description = ""
 authors = ["xxxw1tnessbtwxxx <89967499+xxxw1tnessbtwxxx@users.noreply.github.com>"]
@@ -9,18 +9,15 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.12"
 fastapi = "^0.115.5"
-pydantic = "^2.10.2"
-pyjwt = "^2.10.1"
-starlette = "^0.41.3"
-pydantic-settings = "^2.6.1"
 sqlalchemy = "^2.0.36"
-psycopg2-binary = "^2.9.10"
-retry = "^0.9.2"
-requests = "^2.32.3"
-bs4 = "^0.0.2"
-pandas = "^2.2.3"
-yarl = "^1.18.0"
+pydantic = "^2.10.2"
+pydantic-settings = "^2.6.1"
+alembic = "^1.14.0"
 uvicorn = "^0.32.1"
+psycopg2-binary = "^2.9.10"
+starlette = "^0.41.3"
+pyjwt = "^2.10.1"
+yarl = "^1.18.0"
 
 
 [build-system]
