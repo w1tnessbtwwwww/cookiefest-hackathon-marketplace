@@ -1,4 +1,7 @@
 {
+  "settings": {
+    "number_of_shards": 1
+  },
   "mappings": {
     "properties": {
       "articul": {
@@ -21,8 +24,20 @@
       "on_sale": {
         "type": "boolean"
       },
+      "price": {
+        "type": "integer"
+      },
+      "quantity": {
+        "type": "integer"
+      },
       "rating_count": {
         "type": "integer"
+      },
+      "sale_percentage": {
+        "type": "integer",
+        "ignore_malformed": false,
+        "coerce": true,
+        "null_value": 0
       },
       "title": {
         "type": "text",
