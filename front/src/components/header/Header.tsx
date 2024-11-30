@@ -83,7 +83,7 @@ export default function Header() {
           <div className="hidden sm:block sm:order-0">
             <NavLink to={"/"} className="flex items-center ">
               <img
-                src="https://static-basket-01.wbbasket.ru/vol2/site/i/v3/header/logo_2024_11_14.webp"
+                src="https://cookiefest.nso.ru/images/fest_logo_min.svg"
                 className="mr-3 h-6 sm:h-9"
                 alt="Logo"
               />

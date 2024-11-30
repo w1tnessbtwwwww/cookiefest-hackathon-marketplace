@@ -128,11 +128,11 @@ const CartPage: React.FC = () => {
           <h2 className="text-lg font-bold text-gray-900 mb-4">Рассчетная стоимость</h2>
           <div className="space-y-2">
             <div className="flex justify-between">
-              <span className="text-sm text-gray-600">Subtotal</span>
+              <span className="text-sm text-gray-600">Товар</span>
               <span className="text-sm text-gray-800">{subtotal.toFixed(2)} ₽</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-sm text-gray-600">Стоимость доставки</span>
+              <span className="text-sm text-gray-600">Доставка</span>
               <span className="text-sm text-gray-800">{shippingEstimate.toFixed(2)} ₽</span>
             </div>
             <div className="flex justify-between">
