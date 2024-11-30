@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAuth } from './AuthProvider';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import baseUrl from '../../baseurl';
 
 const Register: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -22,7 +23,7 @@ const Register: React.FC = () => {
     }
     try {
       const response = await axios.post(
-        "http://172.20.10.3:8008/v1/auth/register",
+        `${baseUrl()}/v1/auth/register`,
         { email, password },
         {
           headers: {
