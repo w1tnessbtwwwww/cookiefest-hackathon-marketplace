@@ -21,6 +21,11 @@ jobs:
     - name: Cloning Repository
       uses: actions/checkout@v2
 
+    - name: Cloning Python .env
+      run: |
+        cd back/python-api
+        echo "${{ secrets.ENV_PYTHON}}" > .env
+        
     - name: Running Tests
       run: |
         cd back/python-api/
