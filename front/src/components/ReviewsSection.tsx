@@ -1,10 +1,6 @@
 import React from "react";
+import { Review } from "../types";
 
-interface Review {
-  name: string;
-  rating: number;
-  comment: string;
-}
 
 interface ReviewsSectionProps {
   reviews: Review[];

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 
-interface SupplierPage {
+interface MerchantsPage {
     id: number;
     store: string;
     price: number;
@@ -11,7 +11,7 @@ interface SupplierPage {
     reviews: number;
 }
 
-const mockOffers: SupplierPage[] = [
+const mockOffers: MerchantsPage[] = [
     {
         id: 1,
         store: "TishkaShop",
@@ -54,10 +54,10 @@ const handleAddToCart = () => {
     });
 };
 
-const SupplierPage = () => {
+const MerchantsPage = () => {
     const { id } = useParams<{ id: string }>();
-    const [offers, setOffers] = useState<SupplierPage[]>(mockOffers);
-    const [deliveryFilter, setDeliveryFilter] = useState<string>("any"); // По умолчанию "Любая"
+    const [offers, setOffers] = useState<MerchantsPage[]>(mockOffers);
+    // const [deliveryFilter, setDeliveryFilter] = useState<string>("any"); // По умолчанию "Любая"
     const [minPrice, setMinPrice] = useState<number>(0); // Цена от 0
     const [maxPrice, setMaxPrice] = useState<number>(
         Math.max(...mockOffers.map((offer) => offer.price))
@@ -68,15 +68,15 @@ const SupplierPage = () => {
     const filterOffers = () => {
         let filteredOffers = [...mockOffers];
 
-        // Фильтрация по сроку доставки
-        if (deliveryFilter) {
-            filteredOffers = filteredOffers.filter((offer) => {
-                if (deliveryFilter === "1-2") return parseInt(offer.delivery) <= 2;
-                if (deliveryFilter === "up-to-5") return parseInt(offer.delivery) <= 5;
-                if (deliveryFilter === "any") return true;
-                return true;
-            });
-        }
+        // // Фильтрация по сроку доставки
+        // if (deliveryFilter) {
+        //     filteredOffers = filteredOffers.filter((offer) => {
+        //         if (deliveryFilter === "1-2") return parseInt(offer.delivery) <= 2;
+        //         if (deliveryFilter === "up-to-5") return parseInt(offer.delivery) <= 5;
+        //         if (deliveryFilter === "any") return true;
+        //         return true;
+        //     });
+        // }
 
         // Фильтрация по цене
         if (minPrice !== null) {
@@ -107,7 +107,7 @@ const SupplierPage = () => {
 
     useEffect(() => {
         filterOffers();
-    }, [deliveryFilter, minPrice, maxPrice, ratingFilter, activeFilter]);
+    }, [minPrice, maxPrice, ratingFilter, activeFilter]);
 
     return (
         <div className="max-w-6xl mx-auto p-6">
@@ -243,4 +243,4 @@ const SupplierPage = () => {
     );
 };
 
-export default SupplierPage;
+export default MerchantsPage;

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Swal from "sweetalert2";
-import { Product } from "../types";
+import { ProductCardProps } from "../types";
 import { NavLink } from "react-router-dom";
 
-const ProductCard: React.FC<Product> = ({ product }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const [isFavorite, setIsFavorite] = useState(false);
 
   const handleAddToFavorite = () => {
