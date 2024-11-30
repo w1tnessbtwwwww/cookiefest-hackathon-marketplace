@@ -24,18 +24,25 @@ class UserRepository(AbstractRepository):
         
         query = select(UserProfile).where(UserProfile.userId == result.userId)
         profile = self._session.execute(query).scalars().one_or_none()
-        return AccessToken(access_token=JWTManager.create_access_token(
+        if profile:
+            return AccessToken(access_token=JWTManager.create_access_token(
+                {
+                    "id": result.userId,
+                    "profile": {
+                        "name": profile.name,
+                        "patronymic": profile.patronymic,
+                        "surname": profile.surname,
+                        "phoneNumber": profile.phoneNumber,
+                        "email": result.email
+                    }
+                }), token_type="Bearer")
+    
+        else:
+            return AccessToken(access_token=JWTManager.create_access_token(
             {
                 "id": result.userId,
-                "profile": {
-                    "name": profile.name,
-                    "patronymic": profile.patronymic,
-                    "surname": profile.surname,
-                    "phoneNumber": profile.phoneNumber,
-                    "email": result.email
-                }
+                "profile": None
             }), token_type="Bearer")
-    
     async def register(self, request: Register):
         result = self._session.execute(
             select(self.model)
