@@ -1,5 +1,5 @@
 from pydantic import BaseModel
 
 class CreateOrder(BaseModel):
-    productId: int
+    articul: int
     userId: int

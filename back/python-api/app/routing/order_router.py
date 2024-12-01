@@ -12,4 +12,4 @@ async def get_orders(user: int, session: Session = Depends(get_session)):
 
 @order_router.post("/createorder")
 async def create_order(orderCreate: CreateOrder, session: Session = Depends(get_session)):
-    return await OrderRepository(session).create(productId=orderCreate.productId, userId=orderCreate.userId)
+    return await OrderRepository(session).create_by_articul(orderCreate)
