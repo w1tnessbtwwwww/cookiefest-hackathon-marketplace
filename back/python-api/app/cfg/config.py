@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     database_username: str
 
     API_BASE_PORT: int
+    ELASTICSEARCH_KEYWORD: str
 
     class Config:
         env_file = ".env"

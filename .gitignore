@@ -16,11 +16,15 @@ dist-ssr
 *.local
 
 # Editor directories and files
-.vscode/*
-.idea
-.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# OS specific
+.DS_Store
+
+# IDE specific
+.idea
+.vscode

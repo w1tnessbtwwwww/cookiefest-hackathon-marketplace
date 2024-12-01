@@ -4,7 +4,7 @@ from ..models.merchant import Merchant
 from sqlalchemy import select, insert, update, delete
 class MerchantRepository(AbstractRepository):
     model = Merchant
-
+#
     def __init__(self, session: Session):
         self._session = session
 

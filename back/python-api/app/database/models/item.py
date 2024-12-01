@@ -2,7 +2,7 @@ from sqlalchemy import BigInteger, ForeignKey, String
 from .base import Base
 from sqlalchemy.orm import Mapped, mapped_column
 
-class Product(Base):
+class Item(Base):
     __tablename__ = "items"
     productId: Mapped[int] = mapped_column(BigInteger, primary_key=True)
     title: Mapped[str] = mapped_column(nullable=True)
@@ -16,3 +16,5 @@ class Product(Base):
     url: Mapped[str] = mapped_column(nullable=True)
     rating: Mapped[float] = mapped_column(nullable=True)
     reviews: Mapped[int] = mapped_column(nullable=True)
+    productCategoryId: Mapped[int] = mapped_column(nullable=True)
+    

@@ -1,10 +1,6 @@
 import React from "react";
+import { Review } from "../types";
 
-interface Review {
-  name: string;
-  rating: number;
-  comment: string;
-}
 
 interface ReviewsSectionProps {
   reviews: Review[];
@@ -79,14 +75,14 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({
                     <span
                       key={i}
                       className={`inline-block w-4 h-4 ${
-                        i < review.rating ? "bg-yellow-500" : "bg-gray-300"
+                        i < review.reviewRating ? "bg-yellow-500" : "bg-gray-300"
                       } rounded-full`}
                     ></span>
                   ))}
                 </div>
               </div>
             </div>
-            <p className="mt-2 text-sm text-gray-600">{review.comment}</p>
+            <p className="mt-2 text-sm text-gray-600">{review.text}</p>
           </div>
         ))}
       </div>

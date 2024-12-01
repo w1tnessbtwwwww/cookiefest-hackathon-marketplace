@@ -2,32 +2,15 @@ version: '3.9'
 
 services:
 
-  cookiefest_database:
-    container_name: cookiefest_database
-    image: postgres:16.4
-    restart: always    
-    env_file:
-      - .env
-    environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
-    ports:
-      - ${POSTGRES_PORT}:5432
-    volumes:
-      - /var/lib/postgresql/data
-
   cookiefest_api:
     container_name: cookiefest_api
     build:
       context: .
       dockerfile: docker/Dockerfile
     restart: always
-    command: ["poetry", "run", "uvicorn", "main:api", "--host", "0.0.0.0", "--port", "8000"]
+    command: ["poetry", "run", "uvicorn", "start:api", "--reload", "--host", "0.0.0.0", "--port", "8000"]
     env_file:
       - .env
     ports:
       - ${API_BASE_PORT}:8000
     
-    depends_on:
-      - cookiefest_database

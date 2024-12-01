@@ -44,7 +44,7 @@ class AbstractRepository(ABC):
         result = self._session.execute(delete(self.model).where(self.model.id == id))
         await self.commit()
         return result.rowcount
-
+#
     async def get_by_filter_all(self, **kwargs):
         query = select(self.model).filter_by(**kwargs)
         result = self._session.execute(query)

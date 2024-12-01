@@ -1,3 +1,4 @@
+import json
 from fastapi import Depends
 from sqlalchemy import and_, select
 from app.schema.register_request import Register
@@ -7,6 +8,7 @@ from ..abstract.abc_repo import AbstractRepository
 from sqlalchemy.orm import Session
 from ..models.user import User
 from app.utils.jwt.JWTManager import JWTManager
+from ..models.user_profile import UserProfile
 
 class UserRepository(AbstractRepository):
 
@@ -20,8 +22,27 @@ class UserRepository(AbstractRepository):
         if not result:
             return None
         
-        return AccessToken(access_token=JWTManager.create_access_token({"id": result.userId}), token_type="Bearer")
+        query = select(UserProfile).where(UserProfile.userId == result.userId)
+        profile = self._session.execute(query).scalars().one_or_none()
+        if profile:
+            return AccessToken(access_token=JWTManager.create_access_token(
+                {
+                    "id": result.userId,
+                    "profile": {
+                        "name": profile.name,
+                        "patronymic": profile.patronymic,
+                        "surname": profile.surname,
+                        "phoneNumber": profile.phoneNumber,
+                        "email": result.email
+                    }
+                }), token_type="Bearer")
     
+        else:
+            return AccessToken(access_token=JWTManager.create_access_token(
+            {
+                "id": result.userId,
+                "profile": None
+            }), token_type="Bearer")
     async def register(self, request: Register):
         result = self._session.execute(
             select(self.model)

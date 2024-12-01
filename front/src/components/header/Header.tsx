@@ -7,7 +7,7 @@ import { useAuth } from "../auth/AuthProvider";
 
 export default function Header() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const { isAuthenticated, login, logout } = useAuth();
+  const { isAuthenticated } = useAuth();
 
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
@@ -83,7 +83,7 @@ export default function Header() {
           <div className="hidden sm:block sm:order-0">
             <NavLink to={"/"} className="flex items-center ">
               <img
-                src="https://static-basket-01.wbbasket.ru/vol2/site/i/v3/header/logo_2024_11_14.webp"
+                src="https://cookiefest.nso.ru/images/fest_logo_min.svg"
                 className="mr-3 h-6 sm:h-9"
                 alt="Logo"
               />
@@ -94,7 +94,7 @@ export default function Header() {
           </div>
 
           {/* Кнопки */}
-          <div className="flex order-2 items-center">
+          <div className="hidden lg:flex flex order-2 items-center ">
             <Link
               to="/cart"
               className="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 px-2"
@@ -116,44 +116,6 @@ export default function Header() {
             </Link>
             {isAuthenticated ? (
               <div className="flex">
-                <Link
-                  to="/favorites"
-                  className="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 px-2"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    className="size-6"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
-                    />
-                  </svg>
-                </Link>
-                <Link
-                  to="/notifications"
-                  className="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 px-2"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    className="size-6"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
-                    />
-                  </svg>
-                </Link>
                 <Link
                   to="/profile"
                   className="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 px-2"
@@ -177,13 +139,13 @@ export default function Header() {
             ) : (
               <>
                 <Link
-                  to="/login"
+                  to="/auth/login"
                   className="text-gray-800 dark:text-white hover:text-purple-600 dark:hover:text-purple-400 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-4 py-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-purple-800"
                 >
                   Вход
                 </Link>
                 <Link
-                  to="/register"
+                  to="/auth/register"
                   className="text-white bg-purple-600 hover:bg-purple-700 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-purple-500 dark:hover:bg-purple-600 focus:outline-none dark:focus:ring-purple-800"
                 >
                   Регистрация
