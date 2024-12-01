@@ -12,3 +12,12 @@ async def get_shop(session: Session = Depends(get_session)):
 @shop_router.get("/getitems/{articul}")
 async def get_item(articul: int, session: Session = Depends(get_session)):
     return await ShopRepository(session).get_by_articul(articul)
+
+@shop_router.get("/getitems")
+async def get_items_by_title(title: str, session: Session = Depends(get_session)):
+    return await ShopRepository(session).get_by_title(title)
+
+
+@shop_router.post("/getitems")
+async def get_items_by_category(category: str, session: Session = Depends(get_session)):
+    return await ShopRepository(session).get_by_category(category)
