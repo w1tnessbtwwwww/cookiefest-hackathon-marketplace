@@ -15,10 +15,33 @@ interface Profile {
   phoneNumber: string;
 }
 
+interface orderType{
+  Order: {
+      productId: number,
+      orderId: number,
+      userId: number,
+      orderedAt: Date;
+    },
+    Item: {
+      title: string;
+      articul: number;
+      price: number,
+      sale: number,
+      merchantId: number,
+      url: string
+      reviews: number,
+      description: number,
+      productId: number,
+      quantity: number,
+      salePrice: number,
+      rating: number,
+      productCategoryId: number,
+    }
+}
 
 const UserProfilePage: React.FC = () => {
   const [favorites, setFavorites] = useState<productNewType[] | []>([]);
-  const [orders, setOrders] = useState<productNewType | []>([]);
+  const [orders, setOrders] = useState<orderType[] | []>([]);
   const [profile, setProfile] = useState<Profile>({
     surname: "string",
     name: "string",
@@ -157,25 +180,22 @@ const UserProfilePage: React.FC = () => {
           <div className="flex overflow-x-auto space-x-4">
             {favorites.map((item) => (
               <div
-                key={item.id}
+                key={item.articul}
                 className="w-60 flex-shrink-0 bg-gray-100 p-4 rounded-lg shadow-md"
               >
                 <img
                   src={""}
-                  alt={item.description}
+                  alt={"photo"}
                   className="w-full h-32 rounded-lg object-cover mb-2"
                 />
-                <h3 className="text-sm font-bold text-gray-800">{item.name}</h3>
-                <p className="text-sm text-gray-500">
-                  {item.color} {item.size && `/ ${item.size}`}
-                </p>
+                <h3 className="text-sm font-bold text-gray-800">{item.title}</h3>
                 <p className="text-sm font-semibold text-primary-700">
                   {item.price} ₽
                 </p>
                 <button
                   onClick={() =>
                     setFavorites(
-                      favorites.filter((favorite) => favorite.id !== item.id)
+                      favorites.filter((favorite) => favorite.articul !== item.articul)
                     )
                   }
                   className="text-sm text-red-500 hover:text-red-700 mt-2"
@@ -199,28 +219,25 @@ const UserProfilePage: React.FC = () => {
           <div className="space-y-4">
             {orders.map((item) => (
               <div
-                key={item.id}
+                key={item.Item.articul}
                 className="flex items-center justify-between border-b border-gray-200 pb-4"
               >
                 <div className="flex items-center">
                   <img
-                    src={item.image}
-                    alt={item.name}
+                    src={""}
+                    alt={item.Item.title}
                     className="w-20 h-20 rounded-lg object-cover"
                   />
                   <div className="ml-4">
                     <h3 className="text-sm font-bold text-gray-800">
-                      {item.name}
+                      {item.Item.title}
                     </h3>
-                    <p className="text-sm text-gray-500">
-                      {item.color} {item.size && `/ ${item.size}`}
-                    </p>
                     <p className="text-sm font-semibold text-primary-700">
-                      {item.price} ₽
+                      {item.Item.price} ₽
                     </p>
                   </div>
                 </div>
-                <p className="text-sm text-gray-500">{item.stockStatus}</p>
+                
               </div>
             ))}
           </div>
