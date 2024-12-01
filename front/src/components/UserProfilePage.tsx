@@ -54,6 +54,21 @@ const UserProfilePage: React.FC = () => {
   const { logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
+  useEffect(()=>{
+    const token = getTokenFromCookie("jwt_token");
+    if (token) {
+      const id = getIdFromToken(token);
+      if (id !== null) {
+        setUserId(id);
+        console.log("id:" + userId);
+      } else {
+        console.error("Failed to extract ID from token");
+      }
+    } else {
+      console.error("Token not found in cookies");
+    }
+  },[])
+
   useEffect(() => {
     if (!isAuthenticated) navigate("/auth/login");
 
@@ -80,19 +95,6 @@ const UserProfilePage: React.FC = () => {
     //   }
     // }
 
-    const token = getTokenFromCookie("jwt_token");
-    if (token) {
-      const id = getIdFromToken(token);
-      if (id !== null) {
-        setUserId(id);
-        console.log(userId);
-      } else {
-        console.error("Failed to extract ID from token");
-      }
-    } else {
-      console.error("Token not found in cookies");
-    }
-
     const fetchFavorites = async () => {
       try {
         const fav = await axios.get(
@@ -116,7 +118,7 @@ const UserProfilePage: React.FC = () => {
       }
     };
     fetchOrders();
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, navigate, userId]);
 
   const handleEditProfile = () => {
     setIsModalOpen(true);
