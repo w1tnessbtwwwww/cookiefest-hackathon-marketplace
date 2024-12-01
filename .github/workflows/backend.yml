@@ -39,3 +39,4 @@ jobs:
     - name: Running Frontend
       run: |
         cd front
+        make run-front
