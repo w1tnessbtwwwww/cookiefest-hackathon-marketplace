@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 interface SearchPage {
     id: number;
@@ -69,16 +70,18 @@ const SearchPage = () => {
     const [ratingFilter, setRatingFilter] = useState<string>("3.5");
     const [activeFilter, setActiveFilter] = useState<string>("popular");
 
+    
+
     const filterOffers = () => {
         let filteredOffers = [...mockOffers];
 
-        // if (deliveryFilter) {
-        //     filteredOffers = filteredOffers.filter((offer) => {
-        //         if (deliveryFilter === "1-2") return parseInt(offer.delivery) <= 2;
-        //         if (deliveryFilter === "up-to-5") return parseInt(offer.delivery) <= 5;
-        //         return true;
-        //     });
-        // }
+        if (deliveryFilter) {
+            filteredOffers = filteredOffers.filter((offer) => {
+                if (deliveryFilter === "1-2") return parseInt(offer.delivery) <= 2;
+                if (deliveryFilter === "up-to-5") return parseInt(offer.delivery) <= 5;
+                return true;
+            });
+        }
 
         if (minPrice !== null) {
             filteredOffers = filteredOffers.filter((offer) => offer.price >= minPrice);
@@ -104,19 +107,25 @@ const SearchPage = () => {
         setOffers(filteredOffers);
     };
 
+    const fetchSearched = async (query: string | undefined) => {
+        if (!query) return;
+        try {
+            const response = await axios.get(`/v1/items/getitems?title=${query}`);
+            setOffers(response.data);
+        } catch (err) {
+            console.error("Ошибка загрузки данных:", err);
+        }
+    };
+
+    useEffect(() => {
+        if (query) {
+            fetchSearched(query);
+        }
+    }, [query]);
+
     useEffect(() => {
         filterOffers();
     }, [deliveryFilter, minPrice, maxPrice, ratingFilter, activeFilter]);
-
-    const fetchSearched = async () => {
-        try {
-          const fav = await axios.get(`${baseUrl()}/v1/items/getitems?title=${"iphone"}`)
-          setSearched(fav.data)
-        } catch (err) {
-          console.log('fetchFavorites error')
-        }
-      }
-      fetchSearched()
 
     return (
         <div className="max-w-6xl mx-auto p-6">
