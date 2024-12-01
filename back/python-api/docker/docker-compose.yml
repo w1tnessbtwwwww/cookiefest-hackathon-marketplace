@@ -1,13 +1,14 @@
 version: '3.9'
 
 services:
+
   cookiefest_api:
     container_name: cookiefest_api
     build:
       context: .
       dockerfile: docker/Dockerfile
     restart: always
-    command: ["poetry", "run", "uvicorn", "start:api", "--host", "0.0.0.0", "--port", "8000"]
+    command: ["poetry", "run", "uvicorn", "start:api", "--reload", "--host", "0.0.0.0", "--port", "8000"]
     env_file:
       - .env
     ports:
