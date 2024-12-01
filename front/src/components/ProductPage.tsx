@@ -35,6 +35,7 @@ const ProductPage = () => {
                 const response = await axios.get(`${baseUrl()}/v1/items/getitems/${id}`); 
                 setProduct(response.data);
             } catch (err) {
+
                 setError(err.message);
             } finally {
                 setLoading(false);
@@ -93,6 +94,7 @@ const ProductPage = () => {
           localStorage.setItem("cart", JSON.stringify(currentCart));
       
           // Уведомление об успешном добавлении
+
           Swal.fire({
             title: "Товар добавлен в корзину!",
             text: "Теперь вы можете перейти в корзину или продолжить покупки.",
@@ -108,6 +110,7 @@ const ProductPage = () => {
           });
         } else {
           // Уведомление, если товар уже в корзине
+
           Swal.fire({
             title: "Этот товар уже в корзине!",
             text: "Вы можете добавить другой товар или проверить корзину.",

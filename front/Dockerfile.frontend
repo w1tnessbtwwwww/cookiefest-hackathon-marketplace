@@ -1,5 +1,5 @@
 # Используем официальный Node.js образ
-FROM node:18.19.1-alpine AS build
+FROM node:20 AS build
 
 # Устанавливаем рабочую директорию
 WORKDIR /app/frontend
