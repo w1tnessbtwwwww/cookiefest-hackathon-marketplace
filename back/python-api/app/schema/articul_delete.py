@@ -1,5 +1,5 @@
 from pydantic import BaseModel
 
-class CreateOrder(BaseModel):
+class ArticulDelete(BaseModel):
     articul: int
     userId: int
