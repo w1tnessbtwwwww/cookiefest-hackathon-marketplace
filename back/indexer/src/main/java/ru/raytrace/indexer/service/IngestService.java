@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 @Service
-@DependsOn(value = "indexinitializatorservice")
+@DependsOn(value = "indexInitializatorService")
 public class IngestService {
 
     private final OkHttpClient client;
@@ -35,7 +35,7 @@ public class IngestService {
 
         while (resultSet.next()) {
             String articul = resultSet.getString("articul");
-            String price = resultSet.getString("price");
+            int price = resultSet.getInt("price");
             String description = resultSet.getString("description");
             String title = resultSet.getString("title");
             int sale = resultSet.getInt("sale");
@@ -56,7 +56,7 @@ public class IngestService {
 
         RequestBody requestBody = RequestBody.create(data, JSON);
         Request request = new Request.Builder()
-                .url("https://localhost:9200/_bulk?pretty&pipeline=ent-search-generic-ingestion")
+                .url("http://localhost:9200/_bulk?pretty&pipeline=ent-search-generic-ingestion")
                 .post(requestBody)
                 .addHeader("Content-Type", "application/json")
                 .addHeader("Authorization", "ApiKey ZHc1ZWZaTUI4M0VKUEtHT2tUTUQ6SmY1UnNhSHdTN0s2YUwtemJ2d1ZfZw==")
