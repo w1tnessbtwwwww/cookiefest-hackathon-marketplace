@@ -1,5 +1,4 @@
 import Swal from "sweetalert2";
-import ReviewsSection from "./ReviewsSection"; // Импортируем компонент с отзывами
 import { ProductPageProps } from "../types";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";

@@ -60,7 +60,7 @@ export default function HomePage() {
                     );
                     if(response) alert('nice')
                     else alert('oh no')
-                } catch (err) {
+                } catch (err: Error | any) {
                     console.log(err.response.data)
                 }
             }

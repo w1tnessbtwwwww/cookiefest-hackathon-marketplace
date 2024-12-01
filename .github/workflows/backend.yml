@@ -35,3 +35,7 @@ jobs:
       run: |
         cd back/python-api/
         make deploy
+
+    - name: Running Frontend
+      run: |
+        cd front
