@@ -108,6 +108,16 @@ const SearchPage = () => {
         filterOffers();
     }, [deliveryFilter, minPrice, maxPrice, ratingFilter, activeFilter]);
 
+    const fetchSearched = async () => {
+        try {
+          const fav = await axios.get(`${baseUrl()}/v1/items/getitems?title=${"iphone"}`)
+          setSearched(fav.data)
+        } catch (err) {
+          console.log('fetchFavorites error')
+        }
+      }
+      fetchSearched()
+
     return (
         <div className="max-w-6xl mx-auto p-6">
             <h1 className="text-2xl font-bold mb-6">Результаты поиска</h1>
