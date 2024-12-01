@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "./AuthProvider";
 import baseUrl from "../../baseurl";
+import { jwtDecode } from "jwt-decode";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -38,7 +39,7 @@ const Login: React.FC = () => {
         
         // Сохраняем токен в cookies
         document.cookie = `jwt_token=${token}; path=/; SameSite=Lax; Secure`;
-        console.log(token)
+        console.log(jwtDecode(token))
         // Вызываем функцию логина и перенаправляем
         login();
         navigate('/');

@@ -1,39 +1,41 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { productNewType } from '../types';
-import baseUrl from '../baseurl';
-import { jwtDecode } from 'jwt-decode';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { productNewType } from "../types";
+import baseUrl from "../baseurl";
+import { getTokenFromCookie, getIdFromToken } from "./getToken";
+import { useAuth } from "./auth/AuthProvider";
+import { useNavigate } from "react-router";
 
 const CartPage: React.FC = () => {
   const [cartItems, setCartItems] = useState<productNewType[]>([]);
-  const [userId, setUserId] = useState<number | null>(null)
+  const [userId, setUserId] = useState<number | null>(null);
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate()
 
   useEffect(() => {
-    const getCookie = (name: string): string | null => {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop()!.split(';').shift();
-      return null;
-    };
-
-    const jwtToken = getCookie('jwtToken');
-    if (jwtToken) {
-      try {
-        const decodedToken: { [key: string]: any } = jwtDecode(jwtToken);
-        setUserId(decodedToken.id);
-      } catch (error) {
-        console.error('Failed to decode JWT token:', error);
+    const token = getTokenFromCookie("jwt_token");
+    if (token) {
+      const id = getIdFromToken(token);
+      if (id !== null) {
+        setUserId(id);
+        console.log(userId);
+      } else {
+        console.error("Failed to extract ID from token");
       }
+    } else {
+      console.error("Token not found in cookies");
     }
 
-    const articuls = JSON.parse(localStorage.getItem('cart') || '[]');
+    const articuls = JSON.parse(localStorage.getItem("cart") || "[]");
     console.log(articuls);
 
     const fetchProducts = async () => {
       try {
         const prodArray: productNewType[] = [];
         for (const articul of articuls) {
-          const response = await axios.get(`${baseUrl()}/v1/items/getitems/${articul}`);
+          const response = await axios.get(
+            `${baseUrl()}/v1/items/getitems/${articul}`
+          );
           prodArray.push({ ...response.data, quantity: 1 }); // Устанавливаем количество по умолчанию равным 1
         }
         setCartItems(prodArray);
@@ -51,7 +53,7 @@ const CartPage: React.FC = () => {
 
     // Обновление localStorage
     const updatedArticuls = updatedCartItems.map((item) => item.articul);
-    localStorage.setItem('cart', JSON.stringify(updatedArticuls));
+    localStorage.setItem("cart", JSON.stringify(updatedArticuls));
   };
 
   const handleQuantityChange = (id: number, newQuantity: number) => {
@@ -63,29 +65,36 @@ const CartPage: React.FC = () => {
   };
 
   const handleOrder = () => {
-    const postOrders = async () => {
-      try {
-        cartItems.map(product => {
-          const articul = product.articul
-          const response = axios.post(`${baseUrl()}/v1/orders/createorder`,
-            { userId, articul },
-            {
-              headers: {
-                accept: "application/json",
-                "Content-Type": "application/json",
-              },
-            }
-          )
-          console.log(response)
-        })
-      } catch (err){
-        console.log(err)
-      }
+    if (isAuthenticated) {
+      const postOrders = async () => {
+        try {
+          cartItems.map(async (product) => {
+            const articul = product.articul;
+            const response = await axios.post(
+              `${baseUrl()}/v1/orders/createorder`,
+              { articul, userId },
+              {
+                headers: {
+                  accept: "application/json",
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+            console.log(response);
+          });
+        } catch (err) {
+          console.log(err);
+        }
+      };
+      postOrders();
     }
-    postOrders()
-  }
+    else navigate('/auth/login')
+  };
 
-  const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const subtotal = cartItems.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
   const shippingEstimate = 5.0;
   const taxEstimate = subtotal * 0.1; // Пример 10% налог
   const total = subtotal + shippingEstimate + taxEstimate;
@@ -111,25 +120,36 @@ const CartPage: React.FC = () => {
                     className="w-20 h-20 rounded-lg object-cover"
                   />
                   <div className="ml-4">
-                    <h2 className="text-sm font-semibold text-gray-800">{item.title}</h2>
+                    <h2 className="text-sm font-semibold text-gray-800">
+                      {item.title}
+                    </h2>
                     <p className="text-sm text-gray-500">{item.description}</p>
-                    <p className="text-sm font-medium text-primary-700">{item.price} ₽</p>
+                    <p className="text-sm font-medium text-primary-700">
+                      {item.price} ₽
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-4">
                   {/* Уменьшение количества */}
                   <button
                     onClick={() =>
-                      handleQuantityChange(item.articul, Math.max(item.quantity - 1, 1))
+                      handleQuantityChange(
+                        item.articul,
+                        Math.max(item.quantity - 1, 1)
+                      )
                     }
                     className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
                   >
                     -
                   </button>
-                  <span className="px-4 py-1 border rounded">{item.quantity}</span>
+                  <span className="px-4 py-1 border rounded">
+                    {item.quantity}
+                  </span>
                   {/* Увеличение количества */}
                   <button
-                    onClick={() => handleQuantityChange(item.articul, item.quantity + 1)}
+                    onClick={() =>
+                      handleQuantityChange(item.articul, item.quantity + 1)
+                    }
                     className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
                   >
                     +
@@ -147,19 +167,27 @@ const CartPage: React.FC = () => {
           </div>
           {/* Итоги заказа */}
           <div className="bg-gray-100 p-6 rounded-lg shadow-md">
-            <h2 className="text-lg font-bold text-gray-900 mb-4">Рассчетная стоимость</h2>
+            <h2 className="text-lg font-bold text-gray-900 mb-4">
+              Рассчетная стоимость
+            </h2>
             <div className="space-y-2">
               <div className="flex justify-between">
                 <span className="text-sm text-gray-600">Товар</span>
-                <span className="text-sm text-gray-800">{subtotal.toFixed(2)} ₽</span>
+                <span className="text-sm text-gray-800">
+                  {subtotal.toFixed(2)} ₽
+                </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-sm text-gray-600">Доставка</span>
-                <span className="text-sm text-gray-800">{shippingEstimate.toFixed(2)} ₽</span>
+                <span className="text-sm text-gray-800">
+                  {shippingEstimate.toFixed(2)} ₽
+                </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-sm text-gray-600">Налог</span>
-                <span className="text-sm text-gray-800">{taxEstimate.toFixed(2)} ₽</span>
+                <span className="text-sm text-gray-800">
+                  {taxEstimate.toFixed(2)} ₽
+                </span>
               </div>
               <div className="flex justify-between font-bold text-lg">
                 <span>Итого</span>
@@ -179,11 +207,14 @@ const CartPage: React.FC = () => {
                 type="checkbox"
                 className="w-5 h-5 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 focus:ring-2"
               />
-              <label htmlFor="terms-checkbox" className="ml-2 text-sm text-gray-700">
-                Соглашаюсь с{' '}
+              <label
+                htmlFor="terms-checkbox"
+                className="ml-2 text-sm text-gray-700"
+              >
+                Соглашаюсь с{" "}
                 <a href="#" className="text-purple-600 hover:underline">
                   правилами пользования торговой площадкой
-                </a>{' '}
+                </a>{" "}
                 и возврата
               </label>
             </div>
@@ -195,4 +226,3 @@ const CartPage: React.FC = () => {
 };
 
 export default CartPage;
-
