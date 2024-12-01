@@ -62,7 +62,7 @@ const handleAddToCart = () => {
 const SearchPage = () => {
     const { query } = useParams<{ query: string }>();
     const [offers, setOffers] = useState<SearchPage[]>(mockOffers);
-    const [deliveryFilter, setDeliveryFilter] = useState<string>("any");
+    // const [deliveryFilter, setDeliveryFilter] = useState<string>("any");
     const [minPrice, setMinPrice] = useState<number>(0);
     const [maxPrice, setMaxPrice] = useState<number>(
         Math.max(...mockOffers.map((offer) => offer.price))
@@ -75,13 +75,13 @@ const SearchPage = () => {
     const filterOffers = () => {
         let filteredOffers = [...mockOffers];
 
-        if (deliveryFilter) {
-            filteredOffers = filteredOffers.filter((offer) => {
-                if (deliveryFilter === "1-2") return parseInt(offer.delivery) <= 2;
-                if (deliveryFilter === "up-to-5") return parseInt(offer.delivery) <= 5;
-                return true;
-            });
-        }
+        // if (deliveryFilter) {
+        //     filteredOffers = filteredOffers.filter((offer) => {
+        //         if (deliveryFilter === "1-2") return parseInt(offer.delivery) <= 2;
+        //         if (deliveryFilter === "up-to-5") return parseInt(offer.delivery) <= 5;
+        //         return true;
+        //     });
+        // }
 
         if (minPrice !== null) {
             filteredOffers = filteredOffers.filter((offer) => offer.price >= minPrice);
@@ -125,7 +125,7 @@ const SearchPage = () => {
 
     useEffect(() => {
         filterOffers();
-    }, [deliveryFilter, minPrice, maxPrice, ratingFilter, activeFilter]);
+    }, [ minPrice, maxPrice, ratingFilter, activeFilter]);
 
     return (
         <div className="max-w-6xl mx-auto p-6">
@@ -165,7 +165,7 @@ const SearchPage = () => {
         <h2 className="text-lg font-bold mb-4">Фильтры</h2>
 
         {/* Фильтр по сроку доставки */}
-        <div className="mb-4">
+        {/* <div className="mb-4">
             <h3 className="text-sm font-medium text-gray-700">Срок доставки</h3>
             <button
                 className={`w-full px-4 py-2 mb-2 rounded-md ${deliveryFilter === "1-2" ? "bg-primary-700 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}
@@ -185,7 +185,7 @@ const SearchPage = () => {
             >
                 Любая
             </button>
-        </div>
+        </div> */}
 
         {/* Фильтр по ценовому диапазону */}
         <div className="mb-4">
@@ -241,7 +241,7 @@ const SearchPage = () => {
                                 <div>
                                     <h3 className="text-lg font-bold">{offer.store}</h3>
                                     <div className="flex items-center space-x-2 text-sm text-gray-600">
-                                        <p>Доставка: {offer.delivery} дней</p>
+                                        {/* <p>Доставка: {offer.delivery} дней</p> */}
                                         <p>• Рейтинг: {offer.rating}</p>
                                         <p>• Отзывы: {offer.reviews}</p>
                                     </div>
