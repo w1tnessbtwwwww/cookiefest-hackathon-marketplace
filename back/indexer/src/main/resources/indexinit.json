@@ -1,0 +1,52 @@
+{
+  "settings": {
+    "number_of_shards": 1
+  },
+  "mappings": {
+    "properties": {
+      "articul": {
+        "type": "keyword",
+        "eager_global_ordinals": true
+      },
+      "avg_rating": {
+        "type": "float"
+      },
+      "category": {
+        "type": "keyword"
+      },
+      "description": {
+        "type": "text",
+        "analyzer": "russian"
+      },
+      "merchant": {
+        "type": "keyword"
+      },
+      "on_sale": {
+        "type": "boolean"
+      },
+      "price": {
+        "type": "integer"
+      },
+      "quantity": {
+        "type": "integer"
+      },
+      "rating_count": {
+        "type": "integer"
+      },
+      "sale_percentage": {
+        "type": "integer",
+        "ignore_malformed": false,
+        "coerce": true,
+        "null_value": 0
+      },
+      "title": {
+        "type": "text",
+        "analyzer": "russian"
+      },
+      "url": {
+        "type": "keyword",
+        "index": false
+      }
+    }
+  }
+}
